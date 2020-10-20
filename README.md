@@ -1,1 +1,1 @@
-# nodejs-movies-manager
+# nodeJS Movies Manager

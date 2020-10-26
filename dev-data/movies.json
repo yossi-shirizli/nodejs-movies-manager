@@ -1,198 +1,202 @@
 [
-            {
-                "ratingsQuantity": 180026,
-                "isKids": false,
-                "isClassic": true,
-                "geners": [
-                    "Action",
-                    "Adventure",
-                    "Comedy"
-                ],
-                "_id": "5f94961f7da1b30de46af90e",
-                "status": "Que",
-                "title": "The Blues Brothers",
-                "imdbLink": "https://www.imdb.com/title/tt0080455/",
-                "releaseDate": "1980-06-19T22:00:00.000Z",
-                "ratingsAverage": 7.9,
-                "duration": 133,
-                "plot": "Jake Blues, just released from prison, puts together his old band to save the Catholic home where he and his brother Elwood were raised..",
-                "slug": "the-blues-brothers-1980",
-                "__v": 0
-            },
-            {
-                "ratingsQuantity": 264449,
-                "isKids": true,
-                "isClassic": true,
-                "geners": [
-                    "Animation",
-                    "Adventure",
-                    "Comedy"
-                ],
-                "_id": "5f95c4334c701c06e8de959d",
-                "status": "Done",
-                "title": "Moana",
-                "imdbLink": "https://www.imdb.com/title/tt3521164/",
-                "releaseDate": "2016-12-07T22:00:00.000Z",
-                "ratingsAverage": 7.6,
-                "duration": 107,
-                "plot": "In Ancient Polynesia, when a terrible curse incurred by the Demigod Maui reaches Moana's island, she answers the Ocean's call to seek out the Demigod to set things right.",
-                "slug": "moana-2016",
-                "__v": 0
-            },
-            {
-                "ratingsQuantity": 170045,
-                "isKids": false,
-                "isClassic": false,
-                "geners": [
-                    "Action",
-                    "Crime",
-                    "Thriller"
-                ],
-                "_id": "5f95c49b4c701c06e8de959e",
-                "status": "Done",
-                "title": "Ronin",
-                "imdbLink": "https://www.imdb.com/title/tt0122690/",
-                "releaseDate": "1998-12-16T22:00:00.000Z",
-                "ratingsAverage": 7.3,
-                "duration": 122,
-                "plot": "A freelancing former U.S. Intelligence Agent tries to track down a mysterious package that is wanted by the Irish and the Russians.",
-                "slug": "ronin-1998",
-                "__v": 0
-            },
-            {
-                "ratingsQuantity": 525482,
-                "isKids": false,
-                "isClassic": false,
-                "geners": [
-                    "Action",
-                    "Crime",
-                    "Thriller"
-                ],
-                "_id": "5f95c57f4c701c06e8de959f",
-                "status": "Check Subtitles",
-                "title": "John Wick",
-                "imdbLink": "https://www.imdb.com/title/tt2911666/",
-                "releaseDate": "2014-10-22T21:00:00.000Z",
-                "slug": "john-wick-2014",
-                "ratingsAverage": 7.4,
-                "duration": 101,
-                "plot": "An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.",
-                "__v": 0
-            },
-            {
-                "ratingsQuantity": 1000251,
-                "isKids": false,
-                "isClassic": true,
-                "geners": [
-                    "Biography",
-                    "Crime",
-                    "Drama"
-                ],
-                "_id": "5f95c5fb4c701c06e8de95a0",
-                "status": "Check Subtitles",
-                "title": "Goodfellas",
-                "imdbLink": "https://www.imdb.com/title/tt0099685/",
-                "releaseDate": "1990-09-20T22:00:00.000Z",
-                "slug": "goodfellas-1990",
-                "ratingsAverage": 8.7,
-                "duration": 146,
-                "plot": "The story of Henry Hill and his life in the mob, covering his relationship with his wife Karen Hill and his mob partners Jimmy Conway and Tommy DeVito in the Italian-American crime syndicate.",
-                "__v": 0
-            },
-            {
-                "ratingsQuantity": 772423,
-                "isKids": false,
-                "isClassic": true,
-                "geners": [
-                    "Action",
-                    "Thriller"
-                ],
-                "_id": "5f95c6644c701c06e8de95a1",
-                "status": "Build",
-                "title": "Die Hard",
-                "imdbLink": "https://www.imdb.com/title/tt0095016/",
-                "releaseDate": "1988-07-19T21:00:00.000Z",
-                "slug": "die-hard-1988",
-                "ratingsAverage": 8.2,
-                "duration": 132,
-                "plot": "An NYPD officer tries to save his wife and several others taken hostage by German terrorists during a Christmas party at the Nakatomi Plaza in Los Angeles.",
-                "__v": 0
-            },
-            {
-                "ratingsQuantity": 430160,
-                "isKids": false,
-                "isClassic": false,
-                "geners": [
-                    "Action",
-                    "Drama",
-                    "Sport"
-                ],
-                "_id": "5f95c7097995480771b16cbf",
-                "status": "Downloading",
-                "title": "Warrior",
-                "imdbLink": "https://www.imdb.com/title/tt1291584/",
-                "releaseDate": "2011-10-26T22:00:00.000Z",
-                "slug": "warrior-2011",
-                "ratingsAverage": 8.2,
-                "duration": 140,
-                "plot": "The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.",
-                "__v": 0
-            },
-            {
-                "ratingsQuantity": 388289,
-                "isKids": true,
-                "isClassic": true,
-                "geners": [
-                    "Adventure",
-                    "Family",
-                    "Fantasy"
-                ],
-                "_id": "5f95c8197995480771b16cc1",
-                "status": "Que",
-                "title": "The Princess Bride",
-                "imdbLink": "https://www.imdb.com/title/tt0093779/",
-                "releaseDate": "1987-10-08T22:00:00.000Z",
-                "slug": "the-princess-bride-1987",
-                "ratingsAverage": 8.1,
-                "duration": 98,
-                "plot": "While home sick in bed, a young boy's grandfather reads him the story of a farmboy-turned-pirate who encounters numerous obstacles, enemies and allies in his quest to be reunited with his true love.",
-                "__v": 0
-            },
-            {
-                "ratingsQuantity": 1644849,
-                "isKids": false,
-                "isClassic": true,
-                "geners": [
-                    "Action",
-                    "Sci-Fi"
-                ],
-                "_id": "5f95c8d17995480771b16cc2",
-                "status": "Search",
-                "title": "The Matrix",
-                "imdbLink": "https://www.imdb.com/title/tt0133093/",
-                "releaseDate": "1999-06-23T21:00:00.000Z",
-                "slug": "the-matrix-1999",
-                "ratingsAverage": 8.7,
-                "duration": 136,
-                "plot": "When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.",
-                "__v": 0
-            },
-            {
-                "ratingsQuantity": 677493,
-                "isKids": false,
-                "isClassic": true,
-                "geners": [
-                    "Western"
-                ],
-                "_id": "5f95cf95ba91a0092c5124c1",
-                "status": "Search",
-                "title": "The Good, the Bad and the Ugly",
-                "imdbLink": "https://www.imdb.com/title/tt0060196/",
-                "releaseDate": "1966-12-22T22:00:00.000Z",
-                "slug": "the-good-the-bad-and-the-ugly-1966",
-                "ratingsAverage": 8.8,
-                "duration": 161,
-                "plot": "A bounty hunting scam joins two men in an uneasy alliance against a third in a race to find a fortune in gold buried in a remote cemetery.",
-                "__v": 0
-            }
-        ]
+    {
+        "ratingsQuantity": 180026,
+        "isKids": false,
+        "isClassic": true,
+        "geners": [
+            "Action",
+            "Adventure",
+            "Comedy"
+        ],
+        "status": "Que",
+        "title": "The Blues Brothers",
+        "imdbLink": "https://www.imdb.com/title/tt0080455/",
+        "releaseDate": "1980-06-19T22:00:00.000Z",
+        "ratingsAverage": 7.9,
+        "duration": 133,
+        "plot": "Jake Blues, just released from prison, puts together his old band to save the Catholic home where he and his brother Elwood were raised.."
+    },
+    {
+        "ratingsQuantity": 264449,
+        "isKids": true,
+        "isClassic": true,
+        "geners": [
+            "Animation",
+            "Adventure",
+            "Comedy"
+        ],
+        "status": "Done",
+        "title": "Moana",
+        "imdbLink": "https://www.imdb.com/title/tt3521164/",
+        "releaseDate": "2016-12-07T22:00:00.000Z",
+        "ratingsAverage": 7.6,
+        "duration": 107,
+        "plot": "In Ancient Polynesia, when a terrible curse incurred by the Demigod Maui reaches Moana's island, she answers the Ocean's call to seek out the Demigod to set things right."
+    },
+    {
+        "ratingsQuantity": 170045,
+        "isKids": false,
+        "isClassic": false,
+        "geners": [
+            "Action",
+            "Crime",
+            "Thriller"
+        ],
+        "status": "Done",
+        "title": "Ronin",
+        "imdbLink": "https://www.imdb.com/title/tt0122690/",
+        "releaseDate": "1998-12-16T22:00:00.000Z",
+        "ratingsAverage": 7.3,
+        "duration": 122,
+        "plot": "A freelancing former U.S. Intelligence Agent tries to track down a mysterious package that is wanted by the Irish and the Russians."
+    },
+    {
+        "ratingsQuantity": 525482,
+        "isKids": false,
+        "isClassic": false,
+        "geners": [
+            "Action",
+            "Crime",
+            "Thriller"
+        ],
+        "status": "Check Subtitles",
+        "title": "John Wick",
+        "imdbLink": "https://www.imdb.com/title/tt2911666/",
+        "releaseDate": "2014-10-22T21:00:00.000Z",
+        "ratingsAverage": 7.4,
+        "duration": 101,
+        "plot": "An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him."
+    },
+    {
+        "ratingsQuantity": 1000251,
+        "isKids": false,
+        "isClassic": true,
+        "geners": [
+            "Biography",
+            "Crime",
+            "Drama"
+        ],
+        "status": "Check Subtitles",
+        "title": "Goodfellas",
+        "imdbLink": "https://www.imdb.com/title/tt0099685/",
+        "releaseDate": "1990-09-20T22:00:00.000Z",
+        "ratingsAverage": 8.7,
+        "duration": 146,
+        "plot": "The story of Henry Hill and his life in the mob, covering his relationship with his wife Karen Hill and his mob partners Jimmy Conway and Tommy DeVito in the Italian-American crime syndicate."
+    },
+    {
+        "ratingsQuantity": 772423,
+        "isKids": false,
+        "isClassic": true,
+        "geners": [
+            "Action",
+            "Thriller"
+        ],
+        "status": "Build",
+        "title": "Die Hard",
+        "imdbLink": "https://www.imdb.com/title/tt0095016/",
+        "releaseDate": "1988-07-19T21:00:00.000Z",
+        "ratingsAverage": 8.2,
+        "duration": 132,
+        "plot": "An NYPD officer tries to save his wife and several others taken hostage by German terrorists during a Christmas party at the Nakatomi Plaza in Los Angeles."
+    },
+    {
+        "ratingsQuantity": 430160,
+        "isKids": false,
+        "isClassic": false,
+        "geners": [
+            "Action",
+            "Drama",
+            "Sport"
+        ],
+        "status": "Downloading",
+        "title": "Warrior",
+        "imdbLink": "https://www.imdb.com/title/tt1291584/",
+        "releaseDate": "2011-10-26T22:00:00.000Z",
+        "ratingsAverage": 8.2,
+        "duration": 140,
+        "plot": "The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother."
+    },
+    {
+        "ratingsQuantity": 388289,
+        "isKids": true,
+        "isClassic": true,
+        "geners": [
+            "Adventure",
+            "Family",
+            "Fantasy"
+        ],
+        "status": "Que",
+        "title": "The Princess Bride",
+        "imdbLink": "https://www.imdb.com/title/tt0093779/",
+        "releaseDate": "1987-10-08T22:00:00.000Z",
+        "ratingsAverage": 8.1,
+        "duration": 98,
+        "plot": "While home sick in bed, a young boy's grandfather reads him the story of a farmboy-turned-pirate who encounters numerous obstacles, enemies and allies in his quest to be reunited with his true love."
+    },
+    {
+        "ratingsQuantity": 1644849,
+        "isKids": false,
+        "isClassic": true,
+        "geners": [
+            "Action",
+            "Sci-Fi"
+        ],
+        "status": "Search",
+        "title": "The Matrix",
+        "imdbLink": "https://www.imdb.com/title/tt0133093/",
+        "releaseDate": "1999-06-23T21:00:00.000Z",
+        "ratingsAverage": 8.7,
+        "duration": 136,
+        "plot": "When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence."
+    },
+    {
+        "ratingsQuantity": 677493,
+        "isKids": false,
+        "isClassic": true,
+        "geners": [
+            "Western"
+        ],
+        "status": "Search",
+        "title": "The Good, the Bad and the Ugly",
+        "imdbLink": "https://www.imdb.com/title/tt0060196/",
+        "releaseDate": "1966-12-22T22:00:00.000Z",
+        "ratingsAverage": 8.8,
+        "duration": 161,
+        "plot": "A bounty hunting scam joins two men in an uneasy alliance against a third in a race to find a fortune in gold buried in a remote cemetery."
+    },
+    {
+        "ratingsQuantity": 388289,
+        "isKids": true,
+        "isClassic": true,
+        "geners": [
+            "Adventure",
+            "Family",
+            "Fantasy"
+        ],
+        "status": "Que",
+        "title": "The Princess Bride",
+        "imdbLink": "https://www.imdb.com/title/tt0093779/",
+        "releaseDate": "1987-10-08T22:00:00.000Z",
+        "ratingsAverage": 8.1,
+        "duration": 58,
+        "plot": "While home sick in bed, a young boy's grandfather reads him the story of a farmboy-turned-pirate who encounters numerous obstacles, enemies and allies in his quest to be reunited with his true love."
+    },
+    {
+        "ratingsQuantity": 430160,
+        "isKids": false,
+        "isClassic": false,
+        "geners": [
+            "Action",
+            "Drama",
+            "Sport"
+        ],
+        "status": "Downloading",
+        "title": "Warrior",
+        "imdbLink": "https://www.imdb.com/title/tt1291584/",
+        "releaseDate": "2011-10-26T22:00:00.000Z",
+        "ratingsAverage": 8.2,
+        "duration": 140,
+        "plot": "The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother."
+    }
+]

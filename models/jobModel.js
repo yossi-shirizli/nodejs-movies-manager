@@ -13,6 +13,7 @@ const jobSchema = new mongoose.Schema(
     data: {
       type: String,
       required: [true, 'A job must have data']
+      // validator - isJSON(str [, options])
     },
     CreateAt: {
       type: Date,

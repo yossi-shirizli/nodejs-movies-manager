@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 //const User = require('./userModel');
-//const validator = require('validator');
+const validator = require('validator');
 
 const movieSchema = new mongoose.Schema(
   {
@@ -33,7 +33,9 @@ const movieSchema = new mongoose.Schema(
     imdbLink: {
       type: String,
       unique: true,
-      trim: true
+      trim: true,
+      validate: [validator.isURL, 'IMDB must be a valid URL']
+      // validator - isURL(str [, options])
     },
     releaseDate: Date,
     ratingsAverage: {
@@ -78,16 +80,6 @@ const movieSchema = new mongoose.Schema(
       type: String,
       trim: true
     },
-    // createdAt: {
-    //   type: Date,
-    //   default: Date.now(),
-    //   select: false
-    // },
-    // lastModified: {
-    //   type: Date,
-    //   default: Date.now(),
-    //   select: false
-    // },
     slug: String
   },
   { timestamps: true },

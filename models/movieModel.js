@@ -111,11 +111,6 @@ movieSchema.pre('save', function(next) {
   });
   next();
 });
-movieSchema.pre('findOneAndUpdate', function(next) {
-  console.log('UPDATING');
-  //this.lastModified = Date.now();
-  next();
-});
 
 const Movie = mongoose.model('Movie', movieSchema);
 

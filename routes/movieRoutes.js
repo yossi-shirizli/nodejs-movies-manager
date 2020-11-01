@@ -1,9 +1,10 @@
 const express = require('express');
 const movieController = require('./../controllers/movieController');
+const releaseRouter = require('./releaseRoutes');
 
 const router = express.Router();
 
-// router.param('id', movieController.checkId);
+router.use('/:movieId/releases', releaseRouter);
 
 router
   .route('/top-5-short')

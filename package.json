@@ -19,15 +19,18 @@
   },
   "homepage": "https://github.com/yossi-shirizli/nodejs-movies-manager#readme",
   "dependencies": {
+    "bootstrap": "^4.5.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-mongo-sanitize": "^2.0.0",
     "express-rate-limit": "^5.1.3",
     "helmet": "^4.1.1",
     "hpp": "^0.2.3",
+    "jquery": "^1.9.1",
     "mongoose": "^5.10.11",
     "morgan": "^1.10.0",
     "node-pty": "^0.9.0",
+    "popper.js": "^1.16.1",
     "slugify": "^1.4.5",
     "validator": "^13.1.17",
     "xss-clean": "^0.1.1"

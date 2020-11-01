@@ -13,11 +13,10 @@ const releaseSchema = new mongoose.Schema(
           'Build',
           'Downloading',
           'Que',
-          'Search',
           'Deleted'
         ],
         message:
-          'Status is either: Done, Check-Subtitles, Working, Build, Downloading, Que, Search or Deleted'
+          'Status is either: Done, Check-Subtitles, Working, Build, Downloading, Que or Deleted'
       }
     },
     name: {
@@ -33,13 +32,15 @@ const releaseSchema = new mongoose.Schema(
       //BluRay,DVD,WEB
       type: String
     },
-    durationMs: {
+    durationSec: {
       //greater then 0
-      Type: Number
+      type: Number,
+      min: 1
     },
     sizeByte: {
       //greater then 0
-      type: Number
+      type: Number,
+      min: 1
     },
     hdr: {
       //HDR,DV
@@ -56,69 +57,74 @@ const releaseSchema = new mongoose.Schema(
       type: String,
       trim: true
     },
-    videos: [
-      {
-        sizeMB: {
-          type: Number
-        },
-        codec: {
-          type: String,
-          trim: true
-        },
-        resW: {
-          type: Number
-        },
-        resH: {
-          type: Number
-        },
-        scanType: {
-          type: String,
-          maxlength: [1, 'scan is "i" or "p"']
-        },
-        colors: {
-          type: Number
-        },
-        chroma: {
-          type: String,
-          trim: true
-        },
-        fps: {
-          type: Number
-        },
-        bitrate: {
-          //MBps
-          type: Number
-        }
-      }
-    ],
-    audios: [
-      {
-        sizeMB: {
-          type: Number
-        },
-        language: {
-          type: String,
-          trim: true
-        },
-        codec: {
-          type: String,
-          trim: true
-        },
-        channels: {
-          type: Number
-        },
-        bitrate: {
-          //KBps
-          type: Number
-        },
-        bitDepth: {
-          type: Number
-        },
-        sampleRate: {
-          type: Number
-        }
-      }
-    ]
+    movie: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Movie',
+      required: [true, 'Release must belong to a movie']
+    }
+    // videos: [
+    //   {
+    //     sizeMB: {
+    //       type: Number
+    //     },
+    //     codec: {
+    //       type: String,
+    //       trim: true
+    //     },
+    //     resW: {
+    //       type: Number
+    //     },
+    //     resH: {
+    //       type: Number
+    //     },
+    //     scanType: {
+    //       type: String,
+    //       maxlength: [1, 'scan is "i" or "p"']
+    //     },
+    //     colors: {
+    //       type: Number
+    //     },
+    //     chroma: {
+    //       type: String,
+    //       trim: true
+    //     },
+    //     fps: {
+    //       type: Number
+    //     },
+    //     bitrate: {
+    //       //MBps
+    //       type: Number
+    //     }
+    //   }
+    // ],
+    // audios: [
+    //   {
+    //     sizeMB: {
+    //       type: Number
+    //     },
+    //     language: {
+    //       type: String,
+    //       trim: true
+    //     },
+    //     codec: {
+    //       type: String,
+    //       trim: true
+    //     },
+    //     channels: {
+    //       type: Number
+    //     },
+    //     bitrate: {
+    //       //KBps
+    //       type: Number
+    //     },
+    //     bitDepth: {
+    //       type: Number
+    //     },
+    //     sampleRate: {
+    //       type: Number
+    //     }
+    //   }
+    // ]
   },
   { timestamps: true },
   {
@@ -134,6 +140,13 @@ const releaseSchema = new mongoose.Schema(
 //Audio-calcBitrate
 
 //middleware pre/post
+releaseSchema.pre(/^find/, function(next) {
+  // this.populate({
+  //   path: 'movie',
+  //   select: 'title'
+  // });
+  next();
+});
 
 const Release = mongoose.model('Release', releaseSchema);
 

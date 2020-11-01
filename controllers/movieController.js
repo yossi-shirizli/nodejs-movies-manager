@@ -1,7 +1,6 @@
 const Movie = require('./../models/movieModel');
-const AppError = require('../utils/appError');
-const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
+const factory = require('./handlerFactory');
 
 exports.aliasShortMovies = (req, res, next) => {
   req.query.limit = 5;
@@ -9,81 +8,11 @@ exports.aliasShortMovies = (req, res, next) => {
   req.query.fields = 'title,duration,ratingsAverage,plot,imdbLink';
   next();
 };
-
-exports.getAllMovies = catchAsync(async (req, res, next) => {
-  // Execute query
-  const features = new APIFeatures(Movie.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-  const movies = await features.query;
-
-  // Send response
-  res.status(200).json({
-    status: 'success',
-    results: movies.length,
-    data: {
-      movies
-    }
-  });
-  //error code 404
-});
-exports.getMovie = catchAsync(async (req, res, next) => {
-  const movie = await Movie.findById(req.params.id);
-
-  if (!movie) {
-    return next(new AppError('No movie found with that id', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      movie
-    }
-  });
-  //error code 404
-});
-exports.createMovie = catchAsync(async (req, res, next) => {
-  const newMovie = await Movie.create(req.body);
-
-  res.status(201).json({
-    status: 'success',
-    data: {
-      movie: newMovie
-    }
-  });
-  //error code 400
-});
-exports.updateMovie = catchAsync(async (req, res, next) => {
-  const movie = await Movie.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true
-  });
-
-  if (!movie) {
-    return next(new AppError('No movie found with that id', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: { movie }
-  });
-  //error code 404
-});
-exports.deleteMovie = catchAsync(async (req, res, next) => {
-  const movie = await Movie.findByIdAndDelete(req.params.id);
-
-  if (!movie) {
-    return next(new AppError('No movie found with that id', 404));
-  }
-
-  res.status(204).json({
-    status: 'success',
-    data: null
-  });
-  //error code 404
-});
+exports.getAllMovies = factory.getAll(Movie);
+exports.getMovie = factory.getOne(Movie, { path: 'releases' });
+exports.createMovie = factory.createOne(Movie);
+exports.updateMovie = factory.updateOne(Movie);
+exports.deleteMovie = factory.deleteOne(Movie);
 
 exports.getMainMoviesStats = catchAsync(async (req, res, next) => {
   const stats = await Movie.aggregate([

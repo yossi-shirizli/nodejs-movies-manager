@@ -16,11 +16,10 @@ const movieSchema = new mongoose.Schema(
           'Build',
           'Downloading',
           'Que',
-          'Search',
-          'Deleted'
+          'Search'
         ],
         message:
-          'Status is either: Done, Check-Subtitles, Working, Build, Downloading, Que, Search or Deleted'
+          'Status is either: Done, Check-Subtitles, Working, Build, Downloading, Que or Search'
       }
     },
     title: {
@@ -38,6 +37,7 @@ const movieSchema = new mongoose.Schema(
       // validator - isURL(str [, options])
     },
     releaseDate: Date,
+    year: Number,
     ratingsAverage: {
       type: Number,
       min: [0, 'Rating must be above 0.0'],
@@ -80,10 +80,20 @@ const movieSchema = new mongoose.Schema(
       type: String,
       trim: true
     },
+    //Child ref
+    /**
+     * releases:[
+     *  {
+     *    type:mongoose.Schema.ObjectId,
+     *    ref: 'Release
+     *  }
+     * ]
+     */
     slug: String
   },
-  { timestamps: true },
+  // { timestamps: true },
   {
+    timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
   }
@@ -101,16 +111,52 @@ movieSchema.virtual('durationString').get(function() {
 });
 
 movieSchema.virtual('displayTitle').get(function() {
-  return `${this.title} (${this.releaseDate.getFullYear()})`;
+  //console.log(this.title, this.releaseDate, this.releaseDate.getFullYear());
+  //console.log(str);
+  //new Date(this.releaseDate).getFullYear();
+  //return `${this.title} (${new Date(this.releaseDate).getFullYear()})`;
+  return `${this.title} (${new Date(this.releaseDate).getFullYear()})`;
+  //return str;
+});
+
+// Virtaul Populate
+movieSchema.virtual('releases', {
+  //console.log('Virtual Ref');
+  ref: 'Release',
+  //The name of the field on the other model (Release) that points to this model is stored
+  foreignField: 'movie',
+  //where that id is stored in this current (Movie) model
+  localField: '_id'
 });
 
 // Middlewares
+// movieSchema.pre('save', async function(next) {
+//   console.log(this.bStatus);
+//   const bState = await State.find({ name: this.bStatus });
+//   console.log(bState);
+//   if (!bState) {
+//     console.log('I am in');
+//     const query = await State.find()
+//       .sort('order')
+//       .limit(1);
+//     console.log(query);
+//     //this.bState = await State.find({ $min: 'order' });
+//   }
+//   this.bStatus = bState;
+//   next();
+// });
 movieSchema.pre('save', function(next) {
   this.slug = slugify(`${this.title} ${this.releaseDate.getFullYear()}`, {
     lower: true
   });
   next();
 });
+// movieSchema.pre(/^find/, function(next) {
+//   if (this._update.releaseDate)
+//     this._update.year = new Date(this._update.releaseDate).getFullYear();
+//   console.log(this);
+//   next();
+// });
 
 const Movie = mongoose.model('Movie', movieSchema);
 

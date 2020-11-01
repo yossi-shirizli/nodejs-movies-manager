@@ -9,7 +9,9 @@ const hpp = require('hpp');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const movieRouter = require('./routes/movieRoutes');
+const releaseRouter = require('./routes/releaseRoutes');
 const settingRouter = require('./routes/settingRoutes');
+const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
 
@@ -49,7 +51,10 @@ app.use(
 //app.use(express.static(`${__dirname}/public`));
 
 // **** ROUTES
+app.use('/', viewRouter);
+
 app.use('/api/v1/movies', movieRouter);
+app.use('/api/v1/releases', releaseRouter);
 app.use('/api/v1/settings', settingRouter);
 
 //undefined routes

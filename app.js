@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -15,7 +16,14 @@ const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
 
+//set template engine
+app.set('view engine', 'pug');
+//define were view are located on file system
+app.set('views', path.join(__dirname, 'views'));
+
 // **** MIDDLEWARES
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 //Set Security Http headers
 app.use(helmet());
 
@@ -47,11 +55,11 @@ app.use(
   })
 );
 
-// Serve static files
-//app.use(express.static(`${__dirname}/public`));
-
 // **** ROUTES
 app.use('/', viewRouter);
+// app.get('/', (req, res) => {
+//   res.status(200).render('base');
+// });
 
 app.use('/api/v1/movies', movieRouter);
 app.use('/api/v1/releases', releaseRouter);

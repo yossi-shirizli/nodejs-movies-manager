@@ -37,7 +37,7 @@ const movieSchema = new mongoose.Schema(
       // validator - isURL(str [, options])
     },
     releaseDate: Date,
-    year: Number,
+    // year: Number,
     ratingsAverage: {
       type: Number,
       min: [0, 'Rating must be above 0.0'],

@@ -1,0 +1,107 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap"); */
+
+/* aside {
+  width: 30%;
+  padding-left: 15px;
+  margin-left: 15px;
+  float: right;
+  font-style: italic;
+  background-color: lightgray;
+} */
+
+.main {
+  background-color: #f7f7f7;
+  /* padding: 8rem 6rem; */
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  position: relative;
+  max-height: max-content;
+}
+.btn,
+.btn:link,
+.btn:visited {
+  font-size: 1.6rem;
+  padding: 1.4rem 3rem;
+  border-radius: 10rem;
+  text-transform: uppercase;
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  font-weight: 400;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /*Add later when we use this for the button in form*/
+  border: none;
+  cursor: pointer;
+}
+.btn--small {
+  padding: 1.25rem 3rem !important;
+  font-size: 1.4rem !important;
+}
+.btn--green {
+  background-color: #55c57a;
+  color: #fff;
+}
+.my-text {
+  max-height: 520px;
+  overflow: scroll;
+  overflow-x: hidden;
+  border: 2px solid #000;
+}
+
+/* TO DELETE */
+.head1 {
+  font-size: 40px;
+  color: #009900;
+  font-weight: bold;
+}
+.head2 {
+  font-size: 17px;
+  margin-left: 10px;
+  margin-bottom: 15px;
+}
+body {
+  margin: 0 auto;
+  background-position: center;
+  background-size: contain;
+}
+
+.menu {
+  position: sticky;
+  top: 0;
+  background-color: #009900;
+  padding: 10px 0px 10px 0px;
+  color: white;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.menu a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+.menu-log {
+  right: auto;
+  float: right;
+}
+footer {
+  width: 100%;
+  bottom: 0px;
+  background-color: #000;
+  color: #fff;
+  position: absolute;
+  padding-top: 20px;
+  padding-bottom: 50px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+.body_sec {
+  margin-left: 20px;
+}

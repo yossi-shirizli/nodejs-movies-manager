@@ -1,0 +1,31 @@
+extends base
+
+block content
+    p=`Title: ${movie.title}`
+    |
+    select(name='statusSelect')
+        option(value='Done') Done
+        option(value="CheckSubtitles") Check Subtitles
+        option(value="Build") Build
+        option(value="Download") Download
+        option(value="Que") Que
+        option(value="Search") Search
+        option(value="Deleted") Deleted
+    div=`Display Title: ${movie.displayTitle}`
+    div=`Status: ${movie.status}`
+    div=`IMDB: `
+        a(href=`${movie.imdbLink}` target="_blank")=`${movie.imdbLink}`
+    div=`Release Date: ${movie.releaseDate}`
+    div=`Release Date: ${movie.releaseDate.toLocaleString('en-us', {day: 'numeric',month:'long', year:'numeric'})}`
+    div=`Rating: ${movie.ratingsAverage}/10 (${movie.ratingsQuantity})`
+    div=`Duration: ${movie.duration}min`
+    div=`Duration String: ${movie.durationString}`
+    div=`Kids: ${movie.isKids}`
+    div=`Classic: ${movie.isClassic}`
+    div=`MPAA: ${movie.mpaa}`
+    p=`Plot: ${movie.plot}`
+    div=`Geners: ${movie.geners}`
+    div=`Poster: ${movie.poster}`
+    div=`Slug: ${movie.slug}`
+    div=`Created At: ${movie.createdAt}`
+    div=`Updated At: ${movie.updatedAt}`

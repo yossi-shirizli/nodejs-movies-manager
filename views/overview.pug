@@ -1,0 +1,15 @@
+extends base
+
+block content
+    main.main
+        .my-text
+            each movie in movies
+                p
+                    a(href='#')=movie.displayTitle
+                    a.btn.btn--green.btn--small(href=`/movie/${movie.slug}`)=`${movie.displayTitle} Details`
+
+        //- br
+        //- br
+        //- ul
+        //-     each movie in movies
+        //-         li=movie.displayTitle                

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/yossi-shirizli/nodejs-movies-manager#readme",
   "dependencies": {
+    "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

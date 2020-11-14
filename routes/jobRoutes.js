@@ -3,7 +3,6 @@ const jobController = require('./../controllers/jobController');
 
 const router = express.Router();
 
-
 router
   .route('/')
   .get(jobController.getAllJobs)
@@ -13,5 +12,6 @@ router
   .get(jobController.getJob)
   .patch(jobController.updateJob)
   .delete(jobController.deleteJob);
+router.route('/import').post(jobController.importMovieData);
 
 module.exports = router;

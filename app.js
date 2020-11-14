@@ -13,6 +13,7 @@ const movieRouter = require('./routes/movieRoutes');
 const releaseRouter = require('./routes/releaseRoutes');
 const settingRouter = require('./routes/settingRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const jobRouter = require('./routes/jobRoutes');
 
 const app = express();
 
@@ -64,6 +65,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/movies', movieRouter);
 app.use('/api/v1/releases', releaseRouter);
 app.use('/api/v1/settings', settingRouter);
+app.use('/api/v1/jobs', jobRouter);
 
 //undefined routes
 app.all('*', (req, res, next) => {
@@ -71,5 +73,13 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(globalErrorHandler);
+
+const jobModel = require('./models/jobModel');
+const jobController = require('./controllers/jobController');
+const jobModelEventEmitter = jobModel.watch();
+jobModelEventEmitter.on('change', change => {
+  // console.log(JSON.stringify(change));
+  jobController.executeJob();
+});
 
 module.exports = app;

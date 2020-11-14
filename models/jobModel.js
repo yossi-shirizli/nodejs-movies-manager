@@ -11,10 +11,13 @@ const jobSchema = new mongoose.Schema(
       }
     },
     data: {
-      type: String,
+      type: Object,
       required: [true, 'A job must have data']
       // validator - isJSON(str [, options])
     },
+    total: Number,
+    passed: Number,
+    failed: Number,
     CreateAt: {
       type: Date,
       default: Date.now()
@@ -26,7 +29,7 @@ const jobSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: {
-        values: ['Pending', 'Executing', 'Completed', 'Abourted', 'Failed'],
+        values: ['Pending', 'Executing', 'Completed', 'Aborted', 'Failed'],
         message:
           'Status is either: Pending, Executing, Completed, Abourted or Failed'
       },

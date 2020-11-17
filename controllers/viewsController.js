@@ -22,7 +22,9 @@ exports.getMovie = catchAsync(async (req, res, next) => {
   //   path: 'reviews',
   //   fields: 'review rating user',
   // });
-  const movie = await Movie.findOne({ slug: req.params.slug });
+  const movie = await Movie.findOne({ slug: req.params.slug }).populate({
+    path: 'releases'
+  });
 
   if (!movie) {
     return next(new AppError('There is no movie with that name', 404));

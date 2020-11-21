@@ -37,7 +37,6 @@ const movieSchema = new mongoose.Schema(
       // validator - isURL(str [, options])
     },
     releaseDate: Date,
-    // year: Number,
     ratingsAverage: {
       type: Number,
       min: [0, 'Rating must be above 0.0'],
@@ -81,14 +80,12 @@ const movieSchema = new mongoose.Schema(
       trim: true
     },
     //Child ref
-    /**
-     * releases:[
-     *  {
-     *    type:mongoose.Schema.ObjectId,
-     *    ref: 'Release
-     *  }
-     * ]
-     */
+    selectedReleases: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Release'
+      }
+    ],
     slug: String
   },
   // { timestamps: true },
@@ -111,12 +108,15 @@ movieSchema.virtual('durationString').get(function() {
 });
 
 movieSchema.virtual('displayTitle').get(function() {
-  //console.log(this.title, this.releaseDate, this.releaseDate.getFullYear());
-  //console.log(str);
-  //new Date(this.releaseDate).getFullYear();
-  //return `${this.title} (${new Date(this.releaseDate).getFullYear()})`;
   return `${this.title} (${new Date(this.releaseDate).getFullYear()})`;
-  //return str;
+});
+
+movieSchema.virtual('releaseDateDisplay').get(function() {
+  return this.releaseDate.toLocaleString('en-us', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
 });
 
 // Virtaul Populate

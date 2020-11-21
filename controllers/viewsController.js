@@ -1,4 +1,5 @@
 const Movie = require('./../models/movieModel');
+const Release = require('./../models/releaseModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
@@ -18,13 +19,16 @@ exports.getOverview = catchAsync(async (req, res, next) => {
 });
 
 exports.getMovie = catchAsync(async (req, res, next) => {
-  // const movie = await Movie.findOne({ slug: req.params.slug }).populate({
-  //   path: 'reviews',
-  //   fields: 'review rating user',
-  // });
-  const movie = await Movie.findOne({ slug: req.params.slug }).populate({
-    path: 'releases'
-  });
+  const movie = await Movie.findOne({ slug: req.params.slug })
+    .populate({
+      path: 'releases',
+      select: '-__v -createdAt -updatedAt'
+    })
+    .populate({
+      path: 'selectedReleases',
+      select: '-__v -createdAt -updatedAt'
+    });
+  // console.log(movie);
 
   if (!movie) {
     return next(new AppError('There is no movie with that name', 404));
@@ -33,5 +37,22 @@ exports.getMovie = catchAsync(async (req, res, next) => {
   res.status(200).render('movie', {
     title: `${movie.title}`,
     movie
+  });
+});
+
+exports.getRelease = catchAsync(async (req, res, next) => {
+  const release = await Release.findOne({ _id: req.params.id }).populate({
+    path: 'movie',
+    select: '-__v -createdAt -updatedAt'
+  });
+  console.log(release);
+
+  if (!release) {
+    return next(new AppError('There is no release with that id', 404));
+  }
+
+  res.status(200).render('release', {
+    title: `${release.movie.title}`,
+    release
   });
 });

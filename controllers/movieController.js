@@ -9,7 +9,17 @@ exports.aliasShortMovies = (req, res, next) => {
   next();
 };
 exports.getAllMovies = factory.getAll(Movie);
-exports.getMovie = factory.getOne(Movie, { path: 'releases' });
+exports.getMovie = factory.getOne(
+  Movie,
+  {
+    path: 'releases',
+    select: '-__v -createdAt -updatedAt'
+  },
+  {
+    path: 'selectedReleases',
+    select: '-__v -createdAt -updatedAt'
+  }
+);
 exports.createMovie = factory.createOne(Movie);
 exports.updateMovie = factory.updateOne(Movie);
 exports.deleteMovie = factory.deleteOne(Movie);

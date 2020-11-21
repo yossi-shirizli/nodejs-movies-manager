@@ -1,22 +1,72 @@
 extends base
 
+mixin releaseBox(releaseData)
+    div=releaseData.status
+    div
+        span=releaseData.sizeDisplay
+        span &nbsp
+        span=releaseData.category
+        span &nbsp
+        span HDR
+    div
+        span=releaseData.durationDisplay
+        span &nbsp
+        span=`${releaseData.bitrate}MBps`
+        span &nbsp
+        span=releaseData.source
+    div CHP HEB ENG
+    div AVC 33.Mbps DTS-HD MA 7.1
+    div
+        a(href=`/release/${releaseData._id}`)='Details'
+
 block content
     p=`Title: ${movie.title}`
     |
-    select(name='statusSelect')
-        option(value='Done') Done
-        option(value="CheckSubtitles") Check Subtitles
-        option(value="Build") Build
-        option(value="Download") Download
-        option(value="Que") Que
-        option(value="Search") Search
-        option(value="Deleted") Deleted
+    div
+        span='Status: '
+        select(name='statusSelect')
+            if (!movie.status)
+                option(value='Done') Done
+                option(value='Check-Subtitles') Check-Subtitles
+                option(value='Build') Build
+                option(value='Download') Download
+                option(value='Que') Que
+                option(value='Search' selected='selected') Search
+            else
+                if (movie.status==='Done')
+                    option(value='Done' selected='selected') Done
+                else
+                    option(value='Done') Done
+                if (movie.status==='CheckSubtitles')
+                    option(value='CheckSubtitles' selected='selected') Check Subtitles
+                else
+                    option(value='CheckSubtitles') Check Subtitles
+                if (movie.status==='Build')
+                    option(value='Build' selected='selected') Build
+                else
+                    option(value='Build') Build
+                if (movie.status==='Download')
+                    option(value='Download' selected='selected') Download
+                else
+                    option(value='Download') Download
+                if (movie.status==='Que')
+                    option(value='Que' selected='selected') Que
+                else
+                    option(value='Que') Que
+                if (movie.status==='Search')
+                    option(value='Search' selected='selected') Search
+                else
+                    option(value='Search') Search
+
     div=`Display Title: ${movie.displayTitle}`
-    div=`Status: ${movie.status}`
-    div=`IMDB: `
-        a(href=`${movie.imdbLink}` target="_blank")=`${movie.imdbLink}`
-    div=`Release Date: ${movie.releaseDate}`
-    div=`Release Date: ${movie.releaseDate.toLocaleString('en-us', {day: 'numeric',month:'long', year:'numeric'})}`
+    if (!movie.imdbLink)
+        div=`IMDB: N/A`
+    else
+        div=`IMDB: `
+            a(href=`${movie.imdbLink}` target="_blank")
+                img(src='/img/imdb.png' style='max-width: 500px;')
+
+    div=`Release Date: ${movie.releaseDateDisplay}`
     div=`Rating: ${movie.ratingsAverage}/10 (${movie.ratingsQuantity})`
     div=`Duration: ${movie.duration}min`
     div=`Duration String: ${movie.durationString}`
@@ -26,6 +76,35 @@ block content
     p=`Plot: ${movie.plot}`
     div=`Geners: ${movie.geners}`
     div=`Poster: ${movie.poster}`
+    //- img(src=`${movie.poster}`)
+    //- <img class="logo" src="https://m.media-amazon.com/images/M/MV5BMTk4ODk5MTMyNV5BMl5BanBnXkFtZTcwMDMyNTg0Ng@@._V1_.jpg" alt="My_Logo">
+    //- div TEST
+    //- img(src='/img/Warrior.jpg')
+    //- div TEST
     div=`Slug: ${movie.slug}`
     div=`Created At: ${movie.createdAt}`
     div=`Updated At: ${movie.updatedAt}`
+
+    div Selected Releases
+    each release in movie.selectedReleases
+        +releaseBox(release)
+    |
+    div All Releases
+    each release in movie.releases
+        +releaseBox(release)
+        //- div=release.status
+        //- div
+        //-     span=release.sizeDisplay
+        //-     span &nbsp
+        //-     span=release.category
+        //-     span &nbsp
+        //-     span HDR
+        //- div
+        //-     span=release.durationDisplay
+        //-     span &nbsp
+        //-     span=release.bitrate
+        //-     span &nbsp
+        //-     span=release.source
+        //- //- div=`Duration: ${new Date(release.duration * 1000).toISOString().substr(11, 8)}`
+        //- div V:1 A:2 CHP HEB ENG
+        //- div Details

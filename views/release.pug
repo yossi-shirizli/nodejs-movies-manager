@@ -1,0 +1,75 @@
+extends base
+
+mixin videoStream(video)
+    div=`Size: ${video.sizeMB}`
+    div=`Codec: ${video.codec}`
+    div=`Resulotion: ${video.resW}x${video.resH}${video.scanType}`
+    div=`Bitrate: ${video.bitrate}Mbps`
+    div=`Colors: ${video.colors}bit`
+    div=`Chroma: ${video.chroma}`
+    div=`Fps: ${video.fps}`
+
+mixin audioStream(audio)
+    div=`Size: ${audio.sizeMB}`
+    div=`Language: ${audio.language}`
+    div=`Codec: ${audio.codec}`
+    div=`Channels: ${audio.channels}`
+    div=`Bitrate: ${audio.bitrate}`
+    div=`Bit Depth: ${audio.bitDepth}`
+    div=`Sample Rate: ${audio.sampleRate}KHz`
+
+block content
+    p=`Title: ${release.movie.title}`
+    |
+    div
+        span='Status: '
+        select(name='statusSelect')
+            if (!release.status)
+                option(value='Done') Done
+                option(value='Check-Subtitles') Check-Subtitles
+                option(value='Build') Build
+                option(value='Download') Download
+                option(value='Que' selected='selected') Que
+                option(value='Deleted') Deleted
+            else
+                if (release.status==='Done')
+                    option(value='Done' selected='selected') Done
+                else
+                    option(value='Done') Done
+                if (release.status==='CheckSubtitles')
+                    option(value='CheckSubtitles' selected='selected') Check Subtitles
+                else
+                    option(value='CheckSubtitles') Check Subtitles
+                if (release.status==='Build')
+                    option(value='Build' selected='selected') Build
+                else
+                    option(value='Build') Build
+                if (release.status==='Download')
+                    option(value='Download' selected='selected') Download
+                else
+                    option(value='Download') Download
+                if (release.status==='Que')
+                    option(value='Que' selected='selected') Que
+                else
+                    option(value='Que') Que
+                if (release.status==='Deleted')
+                    option(value='Deleted' selected='selected') Deleted
+                else
+                    option(value='Deleted') Deleted
+    div=`Name: ${release.name}`
+    div=`Category: ${release.category}`
+    div=`Source: ${release.source}`
+    div=`Duration: ${release.durationDisplay}`
+    div=`Size: ${release.sizeDisplay}`
+    div=`Chapters: ${release.chapters}`
+    div=`Bitrate: ${release.bitrate}Mbps`
+    div=`Location: ${release.location}`
+    div=`Hebrew Subtitiles: ${release.hebSub}`
+    div=`English Subtitiles: ${release.engSub}`
+    div Video Streams
+    each video in release.videos
+        +videoStream(video)
+    div Audio Streams
+    each audio in release.audios
+        +audioStream(audio)
+    

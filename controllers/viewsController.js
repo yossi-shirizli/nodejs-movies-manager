@@ -18,6 +18,15 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getAllReleases = catchAsync(async (req, res, next) => {
+  const releases = await Release.find().sort('name');
+
+  res.status(200).render('allReleases', {
+    title: 'All Releases',
+    releases
+  });
+});
+
 exports.getMovie = catchAsync(async (req, res, next) => {
   const movie = await Movie.findOne({ slug: req.params.slug })
     .populate({
@@ -45,7 +54,7 @@ exports.getRelease = catchAsync(async (req, res, next) => {
     path: 'movie',
     select: '-__v -createdAt -updatedAt'
   });
-  console.log(release);
+  // console.log(release);
 
   if (!release) {
     return next(new AppError('There is no release with that id', 404));
@@ -54,5 +63,57 @@ exports.getRelease = catchAsync(async (req, res, next) => {
   res.status(200).render('release', {
     title: `${release.movie.title}`,
     release
+  });
+});
+
+exports.getTodos = catchAsync(async (req, res, next) => {
+  // div Search
+  const searchItems = await Movie.find({ status: 'Search' }).populate({
+    path: 'movie',
+    select: '-__v -createdAt -updatedAt'
+  });
+  // div Que
+  const queItems = await Release.find({ status: 'Que' }).populate({
+    path: 'movie',
+    select: '-__v -createdAt -updatedAt'
+  });
+  // div Download
+  const downloadItems = await Release.find({ status: 'Download' }).populate({
+    path: 'movie',
+    select: '-__v -createdAt -updatedAt'
+  });
+  // div Build
+  const buildItems = await Release.find({ status: 'Build' }).populate({
+    path: 'movie',
+    select: '-__v -createdAt -updatedAt'
+  });
+  // div Check Subtitles
+  const checkSubtitlesItems = await Release.find({
+    status: 'CheckSubtitles'
+  }).populate({
+    path: 'movie',
+    select: '-__v -createdAt -updatedAt'
+  });
+  // console.log(searchItems);
+
+  res.status(200).render('todo', {
+    title: 'Todo',
+    searchItems,
+    queItems,
+    downloadItems,
+    buildItems,
+    checkSubtitlesItems
+  });
+});
+
+exports.getBatchload = catchAsync(async (req, res, next) => {
+  res.status(200).render('batchload', {
+    title: 'Load Data'
+  });
+});
+
+exports.getAddMovie = catchAsync(async (req, res, next) => {
+  res.status(200).render('addMovie', {
+    title: 'Add Movie'
   });
 });

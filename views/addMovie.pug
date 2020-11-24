@@ -1,0 +1,48 @@
+extends base
+
+block content
+    p Add new movie
+    |
+    div
+        label='Status: '
+        select(id='status' name='statusSelect')
+            option(value='Done') Done
+            option(value='Check-Subtitles') Check-Subtitles
+            option(value='Build') Build
+            option(value='Download') Download
+            option(value='Que') Que
+            option(value='Search' selected='selected') Search
+    div
+        label='Title: '
+        input#title(type='text', required, name='title')
+    div
+        label='IMDB Link: '
+        input#imdbLink(type='url', required, name='imdbLink')
+    div
+        label='Release Date: '
+        input#releaseDate(type='date', name='releaseDate')
+    div
+        label='Ratings Quantity: '
+        input#releaseQuantity(type='number', name='releaseQuantity')
+    div
+        label='Duration (Min): '
+        input#duration(type='number', name='duration')
+    div
+        label='Kids: '
+        input#kids(type='checkbox', name='kids')
+    div
+        label='Classic: '
+        input#classic(type='checkbox', name='classic')
+    div
+        label='Plot: '
+        textarea#plot(name='plot')
+    div
+        label='MPAA: '
+        input#mpaa(type='text', name='mpaa')
+    div
+        label='Geners: '
+        input#geners(type='text', name='geners')
+    div
+        label='Poster: '
+        input#poster(type='text', name='poster')
+    button Save

@@ -1,0 +1,35 @@
+extends base
+
+mixin movieWork(name, movies)
+    h3=`${name}`
+    table(border='1px')
+        thead
+            tr
+                th Movie
+        tbody
+            each movie in movies
+                tr
+                    td=`${movie.title}`
+
+mixin releaseWork(name, releases)
+    h3=`${name}`
+    table(border='1px')
+        thead
+            tr
+                th Movie
+                th Release
+                th Location
+        tbody
+            each release in releases
+                tr
+                    td=`${release.movie.title}`
+                    td=`${release.name}`
+                    td=`${release.location}`
+
+block content
+    h1 ToDo List
+    +movieWork('Search',searchItems)
+    +releaseWork('Que',queItems)
+    +releaseWork('Download',downloadItems)
+    +releaseWork('Build',buildItems)
+    +releaseWork('Check Subtitles',checkSubtitlesItems)

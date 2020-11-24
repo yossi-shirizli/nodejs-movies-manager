@@ -2,11 +2,13 @@ header.header
     nav
         a(href='/') All Movies
         span &nbsp
-        a(href='#') All Releases
+        a(href='/all-releases') All Releases
         span &nbsp
-        a(href='#') ToDO
+        a(href='/todo') ToDO
         span &nbsp
-        a(href='/') Statistics
+        a(href='javascript:void(0)') Statistics
+        span &nbsp
+        a(href='/load-data') BatchLoad
     div ICON
     div
         span.head1 Movies Collector
@@ -14,5 +16,5 @@ header.header
         span.head2 Home movies helper
     //- .header__logo
     //-     img(src='/img/logo-white.png' alt='Natours logo')
-    nav
-        input(type='text' placeholder='Search')
+    //- nav
+    //-     input(type='text' placeholder='Search')

@@ -1,0 +1,18 @@
+extends base
+
+block content
+    main.main
+        .my-text
+            div
+                
+                button Add
+                |
+                |
+                button Edit
+                |
+                |
+                button Delete
+            each release in releases
+                p
+                    a(href=`/release/${release._id}`)=release.name
+                    //- a.btn.btn--green.btn--small(href=`/movie/${movie.slug}`)=`${movie.displayTitle} Details`

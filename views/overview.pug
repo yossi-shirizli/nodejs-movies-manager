@@ -3,14 +3,32 @@ extends base
 block content
     main.main
         .my-text
+            div
+                label='Kids '
+                select(id='kids' name='kidsSelect')
+                    option(value='yes') Yes
+                    option(value='no' selected='selected') No
+                    option(value='all') All
+                |
+                |
+                label='Classics '
+                select(id='classics' name='classicSelect')
+                    option(value='yes') Yes
+                    option(value='no') No
+                    option(value='all' selected='selected') All
+                |
+                |
+                button Add
+                |
+                |
+                button Edit
+                |
+                |
+                button Delete
             each movie in movies
                 p
-                    a(href='#')=movie.displayTitle
-                    a.btn.btn--green.btn--small(href=`/movie/${movie.slug}`)=`${movie.displayTitle} Details`
-
-           
-//- block content
-//-     main
-//-         each movie in movies
-//-             p
-//-                 a(href='#')=movie.displayTitle
+                    a(href=`/movie/${movie.slug}`)=movie.displayTitle
+                    if (movie.imdbLink)
+                        a(href=`${movie.imdbLink}` target="_blank")
+                            img(src='/img/imdb.png' style='max-width: 500px;')
+                    //- a.btn.btn--green.btn--small(href=`/movie/${movie.slug}`)=`${movie.displayTitle} Details`

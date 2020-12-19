@@ -1,0 +1,170 @@
+extends base
+
+mixin releaseTable(name, releases)
+    h3=`${name}`
+    table(border='1px')
+        thead
+            tr
+                th Select
+                th Status
+                th Name
+                th Size
+                th Category
+                th Source
+                th Duration
+                th V. Codec
+                th V. Bitrate
+                th A. Streams
+                th A. Codec
+                th Info
+                th Edit
+                th Delete
+        tbody
+            each release in releases
+                tr
+                    td
+                        //- input(id=`chk-${movie.slug}`, type='checkbox', name=`chk-${movie.slug}`)
+                        input(type='checkbox')
+                    td=`${release.status}`
+                    td=`${release.name}`
+                    td=`${release.sizeDisplay}`
+                    td=`${release.category}`
+                    td=`${release.source}`
+                    td=`${release.durationDisplay}`
+                    if (release.videos && release.videos.length>0)
+                        td=`${release.videos[0].codec}`
+                        td=`${release.videos[0].bitrate}Mbps`
+                    else
+                        td=''
+                        td=''
+                    if (release.audios && release.audios.length>0)
+                        td=`${release.audios.length}`
+                        td=`${release.audios[0].codec}`
+                    else
+                        td 0
+                        td=''
+                    td
+                        a(href=`/release/${release._id}`) View
+                    td
+                        a(href=`#`) Edit
+                    td
+                        a(href=`#`) Delete
+
+
+block content
+    if (movie)
+        h1 Edit Movie
+    else
+        h1 Add Movie
+    |
+    div
+        label='Status: '
+        select(id='status' name='statusSelect')
+            if (!movie)
+                option(value='Done') Done
+                option(value='Check-Subtitles') Check-Subtitles
+                option(value='Build') Build
+                option(value='Download') Download
+                option(value='Que') Que
+                option(value='Search' selected='selected') Search
+            else
+                if (movie.status==='Done')
+                    option(value='Done' selected='selected') Done
+                else
+                    option(value='Done') Done
+                if (movie.status==='CheckSubtitles')
+                    option(value='CheckSubtitles' selected='selected') Check Subtitles
+                else
+                    option(value='CheckSubtitles') Check Subtitles
+                if (movie.status==='Build')
+                    option(value='Build' selected='selected') Build
+                else
+                    option(value='Build') Build
+                if (movie.status==='Download')
+                    option(value='Download' selected='selected') Download
+                else
+                    option(value='Download') Download
+                if (movie.status==='Que')
+                    option(value='Que' selected='selected') Que
+                else
+                    option(value='Que') Que
+                if (movie.status==='Search')
+                    option(value='Search' selected='selected') Search
+                else
+                    option(value='Search') Search
+    div
+        label='Title: '
+        if (!movie)
+            input#title(type='text', required, name='title')
+        else
+            input#title(type='text', required, name='title', value=`${movie.title ? movie.title : ''}`)
+    div
+        label='IMDB Link: '
+        if (!movie)
+            input#imdbLink(type='url', required, name='imdbLink')
+        else
+            input#imdbLink(type='url', required, name='imdbLink', value=`${movie.imdbLink ? movie.imdbLink : ''}`)
+    div
+        label='Release Date: '
+        if (!movie)
+            input#releaseDate(type='date', name='releaseDate')
+        else
+            input#releaseDate(type='date', name='releaseDate', value=`${movie.releaseDate ? movie.releaseDate.toISOString().split('T')[0] : ''}`)
+    div
+        label='Ratings Average: '
+        if (!movie)
+            input#ratingsAverage(type='number', name='ratingsAverage' ,step='0.1')
+        else
+            input#ratingsAverage(type='number', name='ratingsAverage' ,step='0.1', value=`${movie.ratingsAverage ? movie.ratingsAverage : ''}`)
+    div
+        label='Ratings Quantity: '
+        if (!movie)
+            input#releaseQuantity(type='number', name='releaseQuantity' ,step='1000')
+        else
+            input#releaseQuantity(type='number', name='releaseQuantity' ,step='1000', value=`${movie.ratingsQuantity ? movie.ratingsQuantity : ''}`)
+    div
+        label='Duration (Min): '
+        if (!movie)
+            input#duration(type='number', name='duration')
+        else
+            input#duration(type='number', name='duration', value=`${movie.duration ? movie.duration : ''}`)
+    div
+        label='Kids: '
+        if (!movie)
+            input#kids(type='checkbox', name='kids')
+        else
+            input#kids(type='checkbox', name='kids', checked=(movie.isKids ? "checked" : undefined))
+    div
+        label='Classic: '
+        if (!movie)
+            input#classic(type='checkbox', name='classic')
+        else
+            input#classic(type='checkbox', name='classic', checked=(movie.isClassic ? "checked" : undefined))
+    div
+        label='Plot: '
+        if (!movie)
+            textarea#plot(name='plot')
+        else
+            textarea#plot(name='plot')=`${movie.plot ? movie.plot : ''}`
+    div
+        label='MPAA: '
+        if (!movie)
+            input#mpaa(type='text', name='mpaa')
+        else
+            input#mpaa(type='text', name='mpaa', value=`${movie.mpaa ? movie.mpaa : ''}`)
+    div
+        label='Geners: '
+        if (!movie)
+            input#geners(type='text', name='geners')
+        else
+            input#geners(type='text', name='geners', value=`${movie.geners ? movie.geners.join(' ') : ''}`)
+    div
+        label='Poster: '
+        if (!movie)
+            input#poster(type='text', name='poster')
+        else
+            input#poster(type='text', name='poster', value=`${movie.poster ? movie.poster : ''}`)
+    |
+    if (movie && movie.releases)
+        +releaseTable('Releases', movie.releases)
+    button Save

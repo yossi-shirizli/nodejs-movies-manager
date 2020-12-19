@@ -19,11 +19,71 @@ mixin releaseBox(releaseData)
     div
         a(href=`/release/${releaseData._id}`)='Details'
 
+mixin releaseTable(name, releases)
+    h3=`${name}`
+    table(border='1px')
+        thead
+            tr
+                th Status
+                th Name
+                th Size
+                th Category
+                th Source
+                th Duration
+                th V. Codec
+                th V. Bitrate
+                th A. Streams
+                th A. Codec
+                th Info
+                th Edit
+                th Delete
+        tbody
+            each release in releases
+                tr
+                    td=`${release.status}`
+                    td=`${release.name}`
+                    td=`${release.sizeDisplay}`
+                    td=`${release.category}`
+                    td=`${release.source}`
+                    td=`${release.durationDisplay}`
+                    if (release.videos && release.videos.length>0)
+                        td=`${release.videos[0].codec}`
+                        td=`${release.videos[0].bitrate}Mbps`
+                    else
+                        td=''
+                        td=''
+                    if (release.audios && release.audios.length>0)
+                        td=`${release.audios.length}`
+                        td=`${release.audios[0].codec}`
+                    else
+                        td 0
+                        td=''
+                    td
+                        a(href=`/release/${release._id}`) View
+                    td
+                        a(href=`#`) Edit
+                    td
+                        a(href=`#`) Delete
+
+
 block content
-    p=`Title: ${movie.title}`
-    |
-    div
-        span='Status: '
+    h1=`${movie.displayTitle}`
+        if (movie.imdbLink)
+            a(href=`${movie.imdbLink}` target="_blank")
+                img(src='/img/imdb.png' style='max-width: 500px;')
+    - let subTitileArray=[];
+    if (movie.mpaa)
+        - subTitileArray.push(movie.mpaa);
+    if (movie.durationString)
+        - subTitileArray.push(movie.durationString);
+    if (movie.geners)
+        - subTitileArray.push(movie.geners.join(', '));
+    if (movie.releaseDateDisplay)
+        - subTitileArray.push(movie.releaseDateDisplay);
+    - console.log(subTitileArray);
+    - const subTitle = subTitileArray.join(' | ');
+    h3=subTitle
+    h4
         select(name='statusSelect')
             if (!movie.status)
                 option(value='Done') Done
@@ -57,38 +117,35 @@ block content
                     option(value='Search' selected='selected') Search
                 else
                     option(value='Search') Search
-
-    div=`Display Title: ${movie.displayTitle}`
-    if (!movie.imdbLink)
-        div=`IMDB: N/A`
-    else
-        div=`IMDB: `
-            a(href=`${movie.imdbLink}` target="_blank")
-                img(src='/img/imdb.png' style='max-width: 500px;')
-
-    div=`Release Date: ${movie.releaseDateDisplay}`
+        |
+        |
+        if (movie.isKids===true)
+            input(type='checkbox' checked)
+        else
+            input(type='checkbox')
+        span Kids
+        |
+        |
+        if (movie.isClassic===true)
+            input(type='checkbox' checked)
+        else
+            input(type='checkbox')
+        span Classic
+    
     div=`Rating: ${movie.ratingsAverage}/10 (${movie.ratingsQuantity})`
-    div=`Duration: ${movie.duration}min`
-    div=`Duration String: ${movie.durationString}`
-    div=`Kids: ${movie.isKids}`
-    div=`Classic: ${movie.isClassic}`
-    div=`MPAA: ${movie.mpaa}`
+    
+    
+    
     p=`Plot: ${movie.plot}`
-    div=`Geners: ${movie.geners}`
+    
     div=`Poster: ${movie.poster}`
-    //- img(src=`${movie.poster}`)
-    //- <img class="logo" src="https://m.media-amazon.com/images/M/MV5BMTk4ODk5MTMyNV5BMl5BanBnXkFtZTcwMDMyNTg0Ng@@._V1_.jpg" alt="My_Logo">
-    //- div TEST
-    //- img(src='/img/Warrior.jpg')
-    //- div TEST
-    div=`Slug: ${movie.slug}`
-    div=`Created At: ${movie.createdAt}`
-    div=`Updated At: ${movie.updatedAt}`
 
-    div Selected Releases
-    each release in movie.selectedReleases
-        +releaseBox(release)
+    +releaseTable('Selected Releases', movie.selectedReleases)
+    //- div Selected Releases
+    //- each release in movie.selectedReleases
+    //-     +releaseBox(release)
     |
-    div All Releases
-    each release in movie.releases
-        +releaseBox(release)
+    +releaseTable('All Releases', movie.releases)
+    //- div All Releases
+    //- each release in movie.releases
+    //-     +releaseBox(release)

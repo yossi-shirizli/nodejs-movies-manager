@@ -1,22 +1,109 @@
 extends base
 
-mixin videoStream(video)
-    div=`Size: ${video.sizeMB}`
-    div=`Codec: ${video.codec}`
-    div=`Resulotion: ${video.resW}x${video.resH}${video.scanType}`
-    div=`Bitrate: ${video.bitrate}Mbps`
-    div=`Colors: ${video.colors}bit`
-    div=`Chroma: ${video.chroma}`
-    div=`Fps: ${video.fps}`
-
-mixin audioStream(audio)
-    div=`Size: ${audio.sizeMB}`
-    div=`Language: ${audio.language}`
-    div=`Codec: ${audio.codec}`
-    div=`Channels: ${audio.channels}`
-    div=`Bitrate: ${audio.bitrate}`
-    div=`Bit Depth: ${audio.bitDepth}`
-    div=`Sample Rate: ${audio.sampleRate}KHz`
+mixin videoStream(videos)
+    table(border='1px')
+        thead
+            tr
+                th Size
+                th HDR
+                th Codec
+                th Resulotion
+                th Bitrate
+                th Colors
+                th Fps
+                th Chroma
+        tbody
+            each video in videos
+                tr
+                    if (video.sizeMB)
+                        if (video.sizeMB>=1024)
+                            td=`${(video.sizeMB/1024).toFixed(1)}GB`
+                        else
+                            td=`${video.sizeMB}MB`
+                    else
+                        td
+                    if (video.hdr)
+                        td=`${video.hdr}`
+                    else
+                        td
+                    if (video.codec)
+                        td=`${video.codec}`
+                    else
+                        td
+                    if (video.resW && video.resH && video.scanType)
+                        td=`${video.resW}x${video.resH}${video.scanType}`
+                    else if (video.resW && video.resH)
+                        td=`${video.resW}x${video.resH}`
+                    else if (video.resH & video.scanType)
+                        td=`${video.resH}${video.scanType}`
+                    else if (video.resH)
+                        td=`${video.resH}`
+                    else if (video.resW)
+                        td=`${video.resW}`
+                    else
+                        td
+                    if (video.bitrate)
+                        td=`${video.bitrate}Mbps`
+                    else
+                        td
+                    if (video.colors)
+                        td=`${video.colors}bit`
+                    else
+                        td
+                    if (video.fps)
+                        td=`${video.fps}`
+                    else
+                        td
+                    if (video.chroma)
+                        td=`${video.chroma}`
+                    else
+                        td
+    
+mixin audioStream(audios)
+    table(border='1px')
+        thead
+            tr
+                th Size
+                th Language
+                th Codec
+                th Channels
+                th Bitrate
+                th Bit Depth
+                th Sample Rate
+        tbody
+            each audio in audios
+                tr
+                    if (audio.sizeMB)
+                        if (audio.sizeMB>=1024)
+                            td=`${(audio.sizeMB/1024).toFixed(1)}GB`
+                        else
+                            td=`${audio.sizeMB}MB`
+                    else
+                        td
+                    if (audio.language)
+                        td=`${audio.language}`
+                    else
+                        td
+                    if (audio.codec)
+                        td=`${audio.codec}`
+                    else
+                        td
+                    if (audio.channels)
+                        td=`${audio.channels}`
+                    else
+                        td
+                    if (audio.bitrate)
+                        td=`${audio.bitrate}Kbps`
+                    else
+                        td
+                    if (audio.bitDepth)
+                        td=`${audio.bitDepth}`
+                    else
+                        td
+                    if (audio.sampleRate)
+                        td=`${audio.sampleRate}KHz`
+                    else
+                        td
 
 block content
     p=`Title: ${release.movie.title}`
@@ -58,6 +145,7 @@ block content
                     option(value='Deleted') Deleted
     div=`Name: ${release.name}`
     div=`Category: ${release.category}`
+    div=`HDR: ${release.hdr}`
     div=`Source: ${release.source}`
     div=`Duration: ${release.durationDisplay}`
     div=`Size: ${release.sizeDisplay}`
@@ -66,10 +154,9 @@ block content
     div=`Location: ${release.location}`
     div=`Hebrew Subtitiles: ${release.hebSub}`
     div=`English Subtitiles: ${release.engSub}`
-    div Video Streams
-    each video in release.videos
-        +videoStream(video)
-    div Audio Streams
-    each audio in release.audios
-        +audioStream(audio)
+    h3 Video Streams
+    +videoStream(release.videos)
+
+    h3 Audio Streams
+    +audioStream(release.audios)
     

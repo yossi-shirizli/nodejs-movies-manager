@@ -1,8 +1,87 @@
 extends base
 
+mixin releaseTable(releases)
+    table(border='1px')
+        thead
+            tr
+                th Movie
+                th Status
+                th Name
+                th Size
+                th Category
+                th HDR
+                th Source
+                th Duration
+                th V. Codec
+                th V. Bitrate
+                th A. Streams
+                th A. Codec
+                th Dub
+                th Info
+                th Edit
+                th Delete
+        tbody
+            each release in releases
+                //- - console.log(release)
+                tr
+                    td=`${release.movie.displayTitle}`
+                    td=`${release.status}`
+                    td=`${release.name}`
+                    td=`${release.sizeDisplay}`
+                    td=`${release.category}`
+                    if (release.hdr)
+                        td=`${release.hdr}`
+                    else
+                        td=''
+                    td=`${release.source}`
+                    td=`${release.durationDisplay}`
+                    if (release.videos && release.videos.length>0)
+                        td=`${release.videos[0].codec}`
+                        td=`${release.videos[0].bitrate}Mbps`
+                    else
+                        td=''
+                        td=''
+                    if (release.audios && release.audios.length>0)
+                        td=`${release.audios.length}`
+                        td=`${release.audios[0].codec}`
+                        - var isDub=false;
+                        each audio in release.audios
+                            if (audio.language && audio.language.toUpperCase()=='HEBREW')
+                                - isDub=true;
+                        if (isDub)
+                            th
+                                input(type='checkbox' checked disabled)
+                        else
+                            th
+                                input(type='checkbox' disabled)
+                    else
+                        td 0
+                        td=''
+                        th
+                            input(type='checkbox' disabled)
+                        
+                    td
+                        a(href=`/release/${release._id}`) View
+                    td
+                        a(href=`#`) Edit
+                    td
+                        a(href=`#`) Delete
+
+
+
 block content
     main.main
         .my-text
+            div
+                span='Status: '
+                select(name='statusSelect')
+                    option(value='All' selected='selected') All
+                    option(value='Done') Done
+                    option(value='Check-Subtitles') Check-Subtitles
+                    option(value='Build') Build
+                    option(value='Download') Download
+                    option(value='Que') Que
+                    option(value='Deleted') Deleted
             div
                 
                 button Add
@@ -12,7 +91,4 @@ block content
                 |
                 |
                 button Delete
-            each release in releases
-                p
-                    a(href=`/release/${release._id}`)=release.name
-                    //- a.btn.btn--green.btn--small(href=`/movie/${movie.slug}`)=`${movie.displayTitle} Details`
+            +releaseTable(releases)

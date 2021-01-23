@@ -1,0 +1,75 @@
+extends base
+
+block content
+    h1 Add Movie
+    |
+    form.form.form-movies-add
+        div.form-group.row
+            label.col-sm-2.col-form-label(for='movie-title') Title
+            div.col-sm-10
+                input#movie-title.form-control(type='text', required, name='movietitle', placeholder='Movie Title')
+        div.form-group.row
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='movie-status') Status
+                div.col-sm-9
+                    select#movie-status.form-control(name='statusSelect')
+                        option(value='Done') Done
+                        option(value='Check-Subtitles') Check-Subtitles
+                        option(value='Build') Build
+                        option(value='Download') Download
+                        option(value='Que') Que
+                        option(value='Search' selected='selected') Search
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='imdb-link') IMDB Link
+                div.col-sm-9
+                    input#imdb-link.form-control(type='url', required, name='imdbLink', placeholder='IMDB Link')
+        div.form-group.row
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label Categories
+                div.col-sm-9
+                    div.form-check.form-check-inline
+                        input#kids.form-check-input(type='checkbox', name='kids', value='kids')
+                        label.form-check-label(for='kids') Kids
+                    div.form-check.form-check-inline
+                        input#classic.form-check-input(type='checkbox', name='classic', value='classic')
+                        label.form-check-label(for='classic') Classic
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='release-date') Release Date
+                div.col-sm-9
+                    input#release-date.form-control(type='date', name='releasedate')
+        div.form-group.row
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='ratings-average') Ratings Average
+                div.col-sm-9
+                    input#ratings-average.form-control(type='number', name='ratingsaverage' ,step='0.1', min='0', max='10')
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='ratings-quantity') Ratings Quantity
+                div.col-sm-9
+                    input#ratings-quantity.form-control(type='number', name='releasequantity' ,step='1', min='0')
+        div.form-group.row
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='geners') Geners
+                div.col-sm-9
+                    input#geners.form-control(type='text', name='geners', placeholder='Comedy, Action')
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='duration') Duration (min)
+                div.col-sm-9
+                    input#duration.form-control(type='number', name='duration' ,step='1', min='0')
+        div.form-group.row
+            label.col-sm-2.col-form-label(for='plot') Plot      
+            div.col-sm-10
+                textarea#plot.form-control(name='plot', rows='4', placeholder='Movie plot...')
+        div.form-group.row
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='mpaa') MPAA
+                div.col-sm-9
+                    input#mpaa.form-control(type='text', name='mpaa', placeholder='PG')
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='poster') Poster
+                div.col-sm-9
+                    input#poster.form-control(type='text', name='poster')
+        |
+        //- button#save-movie.btn.btn-success(type='button') Save
+        button#save-movie.btn.btn-success Save
+
+    

@@ -10,6 +10,7 @@ mixin movieTable(movies)
                 th View
                 th Edit
                 th Delete
+                th Add Release
         tbody
             each movie in movies
                 tr
@@ -28,9 +29,12 @@ mixin movieTable(movies)
                         a(href=`/manage/movie/${movie.slug}`) Edit
                     td
                         a(href=`#`) Delete
+                    td
+                        a(href=`#`) Add Release
 
 block content
     main.main
+        //- - console.log(movies)
         .my-text
             div
                 label='Kids '
@@ -47,27 +51,12 @@ block content
                     option(value='all' selected='selected') All
                 |
                 |
-                button Manage
+                a.btn.btn-primary.disabled(href=`#`) Manage
                 |
                 |
-                button New
+                a.btn.btn-primary(href=`/add-movie`) ADD
                 |
                 |
-                a(href=`/add-movie`) ADD (Temp)
+                a.btn.btn-primary.disabled(href=`/add-movie`) DELETE
             +movieTable(movies)
-            //- each movie in movies
-            //-     p
-            //-         input(id=`chk-${movie.slug}`, type='checkbox', name=`chk-${movie.slug}`)
-            //-         |
-            //-         |
-            //-         a(href=`/movie/${movie.slug}`)=movie.displayTitle
-            //-         |
-            //-         |
-            //-         a(href=`/manage/movie/${movie.slug}`) Edit
-            //-         |
-            //-         |
-            //-         a(href='#') Delete
-            //-         if (movie.imdbLink)
-            //-             a(href=`${movie.imdbLink}` target="_blank")
-            //-                 img(src='/img/imdb.png' style='max-width: 500px;')
-                    //- a.btn.btn--green.btn--small(href=`/movie/${movie.slug}`)=`${movie.displayTitle} Details`
+    

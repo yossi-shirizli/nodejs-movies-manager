@@ -1,0 +1,238 @@
+extends base
+
+
+block content
+    h1 Add Release
+    |
+    form.form.form-releases-add
+        nav
+            div#nav-tab.nav.nav-tabs(role='tablist')
+                a#nav-general-tab.nav-link.active(data-bs-toggle='tab' href='#nav-general' role='tab' aria-controls='nav-general' aria-selected='true') General
+                a#nav-video-tab.nav-link(data-bs-toggle='tab' href='#nav-video' role='tab' aria-controls='nav-video' aria-selected='false') Video Streams
+                a#nav-audio-tab.nav-link(data-bs-toggle='tab' href='#nav-audio' role='tab' aria-controls='nav-contact' aria-selected='false') Audio Streams
+            div#nav-tabContent.tab-content
+                div#nav-general.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-general-tab')
+                    div.form-group.row
+                        label.col-1.col-form-label(for='movie-status') Movie
+                        div.col-11
+                            select#release-movie.form-control(name='movieSelect') Select Movie
+                                each movie in movies
+                                    option(value=movie._id)=`${movie.displayTitle}`
+                    div.form-group.row
+                        label.col-1.col-form-label(for='releasename') Name
+                        div.col-11
+                            input#release-name.form-control(type='text', required, name='releasename' , placeholder='Release Name')
+                    div.form-group.row
+                        div.col-5.form-group.row
+                            label.col-4.col-form-label(for='movie-status') Status
+                            div.col-8
+                                select#release-status.form-control(name='statusSelect')
+                                    option(value='Done') Done
+                                    option(value='Check-Subtitles') Check-Subtitles
+                                    option(value='Build') Build
+                                    option(value='Download') Download
+                                    option(value='Que') Que
+                                    option(value='Search' selected='selected') Search
+                        div.col-4.form-group.row
+                            label.col-4.col-form-label(for='release-category') Category
+                            div.col-8
+                                select#release-category.form-control(name='categorySelect') Select Category
+                                    each category in categories
+                                        option(value=category.name)=`${category.name}`
+                        div.col-3.form-group.row
+                            label.col-4.col-form-label(for='release-hdr') HDR
+                            div.col-8
+                                select#release-hdr.form-control(name='hdrSelect')
+                                    each el in hdr
+                                        option(value=el.name)=`${el.name}`
+                    div.form-group.row
+                        div.col-5.form-group.row
+                            label.col-4.col-form-label() Duration
+                            div.col-8.form-group.row
+                                div.row(style='width: 200px')
+                                    div.col(style='padding: 0px')
+                                        input#release-duration-h.form-control.col(name='duration-h', style='padding: 6px; width: 40px', type='number', min='0', max='6')
+                                    div.col(style='padding: 0px')
+                                        label.col(for='release-duation-h',style='padding: 0px') h
+                                    div.col(style='padding: 0px')
+                                        input#release-duration-m.form-control.col(name='duration-m', style='padding: 6px; width: 50px', type='number', min='0', max='59')
+                                    div.col(style='padding: 0px')
+                                        label.col(for='release-duration-m',style='padding: 0px') m
+                                    div.col(style='padding: 0px')
+                                        input#release-duration-s.form-control.col(name='duration-s', style='padding: 6px; width: 50px', type='number', min='0', max='59')
+                                    div.col(style='padding: 0px')
+                                        label.col(for='release-duration-s',style='padding: 0px') s
+                        div.col-4.form-group.row
+                            label.col-sm-4.col-form-label(for='release-size') Size
+                            div.col-sm-4.form-row
+                                input#release-size.form-control.col(type='number', name='releasesize', step='any' , min='0', placeholder='33.3')
+                            div.col-sm-4.form-row
+                                select#release-size-type.form-control.col(name='sizeSelect')
+                                    option(value='GB', selected='selected') GB
+                                    option(value='MB') MB
+                        div.col-3.form-group.row
+                            label.col-4.col-form-label(for='release-bitrate') Bitrate
+                            div.col-8.form-row
+                                input#release-bitrate.form-control.col(type='number', name='releasebitrate', step='any' , min='0', placeholder='22.2')
+                    div.col-8.form-group.row
+                        div.col-4.form-group.row
+                            label.col-sm-6.col-form-label(for='release-hebrew-subs') Hebrew
+                            div.col-sm-6
+                                select#release-hebrew-subs.form-control(name='hebSubSelect')
+                                    each subtitle in subtitles
+                                        option(value=subtitle.name)=`${subtitle.name}`
+                        div.col-4.form-group.row
+                            label.col-sm-6.col-form-label(for='release-english-subs') English
+                            div.col-sm-6
+                                select#release-english-subs.form-control(name='engSubSelect')
+                                    each subtitle in subtitles
+                                        option(value=subtitle.name)=`${subtitle.name}`
+                        div.col-4.form-check.form-check-inline
+                            label.form-check-label(for='release-chapters') Chapters
+                            input#release-chapters.form-check-input(type='checkbox', name='chapters', value='chapters')
+                    div.form-group.row
+                        div.col-6.form-group.row
+                            label.col-sm-3.col-form-label(for='release-source') Source
+                            div.col-sm-9
+                                select#release-source.form-control(name='sourceSelect')
+                                    each source in sources
+                                        option(value=source.name)=`${source.name}`
+                        div.col-6.form-group.row
+                            label.col-sm-3.col-form-label(for='release-location') Location
+                            div.col-sm-9
+                                select#release-location.form-control(name='locationSelect')
+                                    each location in locations
+                                        option(value=location.display)=`${location.display}`
+                    
+                div#nav-video.tab-pane.fade(role='tabpanel' aria-labelledby='nav-video-tab')
+                    table.table.table-bordered.table-release-streams-video
+                        thead
+                            tr
+                                th(scope='col') Size
+                                th(scope='col') Codec
+                                th(scope='col') Resulotion
+                                th(scope='col') Bitrate
+                                th(scope='col') Colors
+                                th(scope='col') Fps
+                                th(scope='col') Chroma
+                                th(scope='col')
+                                    input#video-add-stream.form-control.btn.btn-outline-primary(type='button', value='Add Stream')
+                        tbody
+                            - for (var i = 0; i < 3; ++i) {
+                                tr
+                                    td
+                                        div.form-group.row(style='width:  180px')
+                                            div.col(style='padding-right:0px')
+                                                input.video-size.form-control(type='number',style='width:  80px', step='any', min='0',placeholder='21.5')
+                                            div.col
+                                                select.video-size-type.form-control(name='videoScanSelect',style='width:  60px; margin:0px')
+                                                    option(value='GB') GB
+                                                    option(value='MB') MB
+                                    td
+                                        input.video-codec.form-control(type='text',style='text-transform:uppercase; width:  70px',placeholder='HEVC')
+                                    td
+                                        div.form-group.row(style='width: 250px')
+                                            div.col(style='padding-right: 0px')
+                                                input.video-res-w.form-control(type='number',style='width:  80px',min='1',step='1',placeholder='3840')
+                                            div.col(style='width:90px; margin:0px; padding:0px',align='center') x
+                                            div.col(style='padding: 0px')
+                                                input.video-res-h.form-control(type='number',style='width:  80px',min='1',step='1',placeholder='2160')
+                                            div.col(style='padding-left: 4px')
+                                                select.video-scan.form-control(name='videoScanSelect',style='width:  50px')
+                                                    option(value='p') p
+                                                    option(value='i') i
+                                    td
+                                        div.form-group.row(style='width:  185px')
+                                            div.col(style='padding-right: 0px')
+                                                input.video-bitrate.form-control(type='number',style="width:  75px; margin: 0px",step='any', min='0',placeholder='21.5')
+                                            div.col(style='padding-left: 0px')
+                                                select.video-bitrate-type.form-control(name='videoScanSelect',style='width:  80px; margin:0px')
+                                                    option(value='Mbps') Mbps
+                                                    option(value='Kbps') Kbps
+                                    td
+                                        input.video-colors.form-control(type='number',style="width:  60px",step='1', min='1',placeholder='10')
+                                    td
+                                        input.video-fps.form-control(type='number',style="width:  95px",step='0.001', min='1',placeholder='23.976')
+                                    td
+                                        input.video-chroma.form-control(type='text',style="width:  70px",placeholder='4:4:4')
+                                    td
+                                        input.form-control.btn.btn-outline-danger(type='button', value='Delete Stream', onclick='DeleteTableRowFunction()')
+                            - }
+                div#nav-audio.tab-pane.fade(role='tabpanel' aria-labelledby='nav-audio-tab')
+                    table.table.table-bordered.table-release-streams-audio
+                        thead
+                            tr
+                                th(scope='col') Size
+                                th(scope='col') Language
+                                th(scope='col') Codec
+                                th(scope='col') Channels
+                                th(scope='col') Bitrate
+                                th(scope='col') Bit Depth
+                                th(scope='col') Sample Rate
+                                th(scope='col')
+                                    input#audio-add-stream.form-control.btn.btn-outline-primary(type='button', value='Add Stream')
+                        tbody
+                            - for (var i = 0; i < 3; ++i) {
+                                tr
+                                    td
+                                        div.form-group.row(style='width:  170px')
+                                            div.col(style='padding-right:0px')
+                                                input.audio-size.form-control(type='number',style='width:  70px', step='any', min='0',placeholder='21.5')
+                                            div.col
+                                                select.audio-size-type.form-control(name='audioScanSelect',style='width:  60px; margin:0px')
+                                                    option(value='GB') GB
+                                                    option(value='MB') MB
+                                    td
+                                        select.audio-language.form-control(name='audioLanguageSelect',style='width:  100px; margin: 0px')
+                                            option(value='Unknown') Unknown
+                                            option(value='English') English
+                                            option(value='Hebrew') Hebrew
+                                            option(value='French') French
+                                            option(value='Spanish') Spanish
+                                            option(value='Italian') Italian
+                                            option(value='Other') Other
+                                    td
+                                        select.audio-codec.form-control(name='audioCodecSelect',style='width:  140px; margin: 0px')
+                                            option(value='Atmos') Atmos
+                                            option(value='DTS-X') DTS-X
+                                            option(value='DTS-HD MA') DTS-HD MA
+                                            option(value='Dolby TrueHD') Dolby TrueHD
+                                            option(value='DTS-HD Hi Res') DTS-HD Hi Res
+                                            option(value='DTS-ES') DTS-ES
+                                            option(value='DTS') DTS
+                                            option(value='AAC') AAC
+                                            option(value='Dolby Digital') AC3
+                                            option(value='LPCM') LPCM
+                                            option(value='FLAC') FLAC
+                                            option(value='PCM') PCM
+                                            option(value='Other') Other
+                                            option(value='Unknown',selected='selected') Unknown
+                                    td
+                                        input.audio-channels.form-control(type='number',style="width:  70px",step='0.1', min='0',placeholder='7.1')
+                                    td
+                                        div.form-group.row(style='width:  185px')
+                                            div.col(style='padding-right: 0px')
+                                                input.audio-bitrate.form-control(type='number',style="width:  75px; margin: 0px",step='any', min='0',placeholder='21.5')
+                                            div.col(style='padding-left: 0px')
+                                                select.audio-bitrate-type.form-control(name='audioBitrateSelect',style='width:  80px; margin:0px')
+                                                    option(value='Mbps') Mbps
+                                                    option(value='Kbps',selected='selected') Kbps
+                                    td
+                                        input.audio-depth.form-control(type='number',style="width: 80px",step='1', min='0',placeholder='24')
+                                    td
+                                        input.audio-sample.form-control(type='number',style="width: 100px",step='0.1', min='0',placeholder='44KHz')
+                                    td
+                                        input.form-control.btn.btn-outline-danger(type='button', value='Delete Stream', onclick='DeleteTableRowFunction()')
+
+
+                            - }
+        button#save-release.btn.btn-success Save 
+        //-  button#save-movie.btn.btn-success Save
+    //- script.
+    //-     function DeleteTableRowFunction() {
+    //-         console.log('DELETE ME');
+    //-     // // event.target will be the input element.
+    //-     // var td = event.target.parentNode;
+    //-     // var tr = td.parentNode; // the row to be removed
+    //-     // tr.parentNode.removeChild(tr);
+    //-     }          

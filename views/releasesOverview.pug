@@ -67,8 +67,6 @@ mixin releaseTable(releases)
                     td
                         a(href=`#`) Delete
 
-
-
 block content
     main.main
         .my-text
@@ -82,13 +80,25 @@ block content
                     option(value='Download') Download
                     option(value='Que') Que
                     option(value='Deleted') Deleted
+                |
+                |
+                span='Movies: '
+                select(name='movieList')
+                    option(value='All' selected='selected') All
+                    option(value='Done') Done
+                    option(value='Check-Subtitles') Check-Subtitles
+                    option(value='Build') Build
+                    option(value='Download') Download
+                    option(value='Que') Que
+                    option(value='Deleted') Deleted
             div
-                
-                button Add
+                a.btn.btn-primary.disabled(href=`#`) Manage
                 |
                 |
-                button Edit
+                a.btn.btn-primary(href=`/add-release`) ADD
                 |
                 |
-                button Delete
+                a.btn.btn-primary.disabled(href=`/add-movie`) DELETE
             +releaseTable(releases)
+
+    script(src='/js/releasesOverview.js')

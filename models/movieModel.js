@@ -108,11 +108,21 @@ movieSchema.virtual('durationString').get(function() {
 });
 
 movieSchema.virtual('displayTitle').get(function() {
-  return `${this.title} (${new Date(this.releaseDate).getFullYear()})`;
+  if (this.releaseDate) {
+    return `${this.title} (${new Date(this.releaseDate).getFullYear()})`;
+  }
+  return `${this.title}`;
 });
 
 movieSchema.virtual('releaseDateDisplay').get(function() {
-  return this.releaseDate.toLocaleString('en-us', {
+  if (this.releaseDate) {
+    return this.releaseDate.toLocaleString('en-us', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  }
+  return Date.now().toLocaleString('en-us', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
@@ -146,9 +156,16 @@ movieSchema.virtual('releases', {
 //   next();
 // });
 movieSchema.pre('save', function(next) {
-  this.slug = slugify(`${this.title} ${this.releaseDate.getFullYear()}`, {
-    lower: true
-  });
+  if (this.releaseDate) {
+    this.slug = slugify(`${this.title} ${this.releaseDate.getFullYear()}`, {
+      lower: true
+    });
+  } else {
+    this.slug = slugify(`${this.title}`, {
+      lower: true
+    });
+  }
+
   next();
 });
 // movieSchema.pre(/^find/, function(next) {

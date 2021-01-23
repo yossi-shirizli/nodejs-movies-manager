@@ -26,7 +26,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 //Set Security Http headers
-app.use(helmet());
+// app.use(helmet());
 
 //Logs
 if (process.env.NODE_ENV === 'development') {
@@ -48,7 +48,7 @@ app.use(express.json());
 //Data sanitization againt NoSQL query injection
 app.use(mongoSanitize());
 //Data sanitization againt XSS
-app.use(xss());
+// app.use(xss());
 //prevent parameter pollution
 app.use(
   hpp({

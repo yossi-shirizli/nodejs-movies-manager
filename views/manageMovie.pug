@@ -57,114 +57,135 @@ block content
     else
         h1 Add Movie
     |
-    div
-        label='Status: '
-        select(id='status' name='statusSelect')
-            if (!movie)
-                option(value='Done') Done
-                option(value='Check-Subtitles') Check-Subtitles
-                option(value='Build') Build
-                option(value='Download') Download
-                option(value='Que') Que
-                option(value='Search' selected='selected') Search
-            else
-                if (movie.status==='Done')
-                    option(value='Done' selected='selected') Done
+    form.form.form-manage-movie
+        div.form-group.row
+            label.col-sm-2.col-form-label(for='movie-title') Title
+            div.col-sm-10
+                if (!movie)
+                    input#movie-title.form-control(type='text', required, name='movietitle', placeholder='Movie Title')
                 else
-                    option(value='Done') Done
-                if (movie.status==='CheckSubtitles')
-                    option(value='CheckSubtitles' selected='selected') Check Subtitles
+                    input#movie-title.form-control(type='text', required, name='movietitle', placeholder='Movie Title', value=`${movie.title ? movie.title : ''}`)
+        div.form-group.row
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='movie-status') Status
+                div.col-sm-9
+                    select#movie-status.form-control(name='statusSelect')
+                        if (!movie)
+                            option(value='Done') Done
+                            option(value='Check-Subtitles') Check-Subtitles
+                            option(value='Build') Build
+                            option(value='Download') Download
+                            option(value='Que') Que
+                            option(value='Search' selected='selected') Search
+                        else
+                            if (movie.status==='Done')
+                                option(value='Done' selected='selected') Done
+                            else
+                                option(value='Done') Done
+                            if (movie.status==='CheckSubtitles')
+                                option(value='CheckSubtitles' selected='selected') Check Subtitles
+                            else
+                                option(value='CheckSubtitles') Check Subtitles
+                            if (movie.status==='Build')
+                                option(value='Build' selected='selected') Build
+                            else
+                                option(value='Build') Build
+                            if (movie.status==='Download')
+                                option(value='Download' selected='selected') Download
+                            else
+                                option(value='Download') Download
+                            if (movie.status==='Que')
+                                option(value='Que' selected='selected') Que
+                            else
+                                option(value='Que') Que
+                            if (movie.status==='Search')
+                                option(value='Search' selected='selected') Search
+                            else
+                                option(value='Search') Search
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='imdb-link') IMDB Link
+                div.col-sm-9
+                    if (!movie)
+                        input#imdb-link.form-control(type='url', required, name='imdbLink', placeholder='IMDB Link')
+                    else
+                        input#imdb-link.form-control(type='url', required, name='imdbLink', placeholder='IMDB Link', value=`${movie.imdbLink ? movie.imdbLink : ''}`)
+        div.form-group.row
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label Categories
+                div.col-sm-9
+                    div.form-check.form-check-inline
+                        if (!movie)
+                            input#kids.form-check-input(type='checkbox', name='kids', value='kids')
+                        else
+                            input#kids.form-check-input(type='checkbox', name='kids', value='kids', checked=(movie.isKids ? "checked" : undefined))
+                        label.form-check-label(for='kids') Kids
+                    div.form-check.form-check-inline
+                        if (!movie)
+                            input#classic.form-check-input(type='checkbox', name='classic', value='classic')
+                        else
+                            input#classic.form-check-input(type='checkbox', name='classic', value='classic', checked=(movie.isClassic ? "checked" : undefined))
+                        label.form-check-label(for='classic') Classic
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='release-data') Release Date
+                div.col-sm-9
+                    if (!movie)
+                        input#release-data.form-control(type='date', name='releasedate')
+                    else
+                        input#release-data.form-control(type='date', name='releasedate', value=`${movie.releaseDate ? movie.releaseDate.toISOString().split('T')[0] : ''}`)
+        div.form-group.row
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='ratings-average') Ratings Average
+                div.col-sm-9
+                    if (!movie)
+                        input#ratings-average.form-control(type='number', name='ratingsaverage' ,step='0.1', min='0', max='10')
+                    else
+                        input#ratings-average.form-control(type='number', name='ratingsaverage' ,step='0.1', min='0', max='10', value=`${movie.ratingsAverage ? movie.ratingsAverage : ''}`)
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='ratings-quantity') Ratings Quantity
+                div.col-sm-9
+                    if (!movie)
+                        input#ratings-quantity.form-control(type='number', name='releasequantity' ,step='1000', min='0')
+                    else
+                        input#ratings-quantity.form-control(type='number', name='releasequantity' ,step='1000', min='0', value=`${movie.ratingsQuantity ? movie.ratingsQuantity : ''}`)
+        div.form-group.row
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='geners') Geners
+                div.col-sm-9
+                    if (!movie)
+                        input#geners.form-control(type='text', name='geners', placeholder='Comedy, Action')
+                    else
+                        input#geners.form-control(type='text', name='geners', placeholder='Comedy, Action', value=`${movie.geners ? movie.geners.join(', ') : ''}`)
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='duration') Duration (min)
+                div.col-sm-9
+                    if (!movie)
+                        input#duration.form-control(type='number', name='duration' ,step='10', min='0')
+                    else
+                        input#duration.form-control(type='number', name='duration' ,step='10', min='0', value=`${movie.duration ? movie.duration : ''}`)
+        
+        div.form-group.row
+            label.col-sm-2.col-form-label(for='plot') Plot      
+            div.col-sm-10
+                if (!movie)
+                    textarea#plot.form-control(name='plot', rows='4', placeholder='Movie plot...')
                 else
-                    option(value='CheckSubtitles') Check Subtitles
-                if (movie.status==='Build')
-                    option(value='Build' selected='selected') Build
-                else
-                    option(value='Build') Build
-                if (movie.status==='Download')
-                    option(value='Download' selected='selected') Download
-                else
-                    option(value='Download') Download
-                if (movie.status==='Que')
-                    option(value='Que' selected='selected') Que
-                else
-                    option(value='Que') Que
-                if (movie.status==='Search')
-                    option(value='Search' selected='selected') Search
-                else
-                    option(value='Search') Search
-    div
-        label='Title: '
-        if (!movie)
-            input#title(type='text', required, name='title')
-        else
-            input#title(type='text', required, name='title', value=`${movie.title ? movie.title : ''}`)
-    div
-        label='IMDB Link: '
-        if (!movie)
-            input#imdbLink(type='url', required, name='imdbLink')
-        else
-            input#imdbLink(type='url', required, name='imdbLink', value=`${movie.imdbLink ? movie.imdbLink : ''}`)
-    div
-        label='Release Date: '
-        if (!movie)
-            input#releaseDate(type='date', name='releaseDate')
-        else
-            input#releaseDate(type='date', name='releaseDate', value=`${movie.releaseDate ? movie.releaseDate.toISOString().split('T')[0] : ''}`)
-    div
-        label='Ratings Average: '
-        if (!movie)
-            input#ratingsAverage(type='number', name='ratingsAverage' ,step='0.1')
-        else
-            input#ratingsAverage(type='number', name='ratingsAverage' ,step='0.1', value=`${movie.ratingsAverage ? movie.ratingsAverage : ''}`)
-    div
-        label='Ratings Quantity: '
-        if (!movie)
-            input#releaseQuantity(type='number', name='releaseQuantity' ,step='1000')
-        else
-            input#releaseQuantity(type='number', name='releaseQuantity' ,step='1000', value=`${movie.ratingsQuantity ? movie.ratingsQuantity : ''}`)
-    div
-        label='Duration (Min): '
-        if (!movie)
-            input#duration(type='number', name='duration')
-        else
-            input#duration(type='number', name='duration', value=`${movie.duration ? movie.duration : ''}`)
-    div
-        label='Kids: '
-        if (!movie)
-            input#kids(type='checkbox', name='kids')
-        else
-            input#kids(type='checkbox', name='kids', checked=(movie.isKids ? "checked" : undefined))
-    div
-        label='Classic: '
-        if (!movie)
-            input#classic(type='checkbox', name='classic')
-        else
-            input#classic(type='checkbox', name='classic', checked=(movie.isClassic ? "checked" : undefined))
-    div
-        label='Plot: '
-        if (!movie)
-            textarea#plot(name='plot')
-        else
-            textarea#plot(name='plot')=`${movie.plot ? movie.plot : ''}`
-    div
-        label='MPAA: '
-        if (!movie)
-            input#mpaa(type='text', name='mpaa')
-        else
-            input#mpaa(type='text', name='mpaa', value=`${movie.mpaa ? movie.mpaa : ''}`)
-    div
-        label='Geners: '
-        if (!movie)
-            input#geners(type='text', name='geners')
-        else
-            input#geners(type='text', name='geners', value=`${movie.geners ? movie.geners.join(' ') : ''}`)
-    div
-        label='Poster: '
-        if (!movie)
-            input#poster(type='text', name='poster')
-        else
-            input#poster(type='text', name='poster', value=`${movie.poster ? movie.poster : ''}`)
-    |
-    if (movie && movie.releases)
-        +releaseTable('Releases', movie.releases)
-    button Save
+                    textarea#plot.form-control(name='plot', rows='4', placeholder='Movie plot...')=`${movie.plot ? movie.plot : ''}`
+        div.form-group.row
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='mpaa') MPAA
+                div.col-sm-9
+                    if (!movie)
+                        input#mpaa.form-control(type='text', name='mpaa', placeholder='PG')
+                    else
+                        input#mpaa.form-control(type='text', name='mpaa', placeholder='PG', value=`${movie.mpaa ? movie.mpaa : ''}`)
+            div.col-sm-6.form-group.row
+                label.col-sm-3.col-form-label(for='poster') Poster
+                div.col-sm-9
+                    if (!movie)
+                        input#poster.form-control(type='text', name='poster')
+                    else
+                        input#poster.form-control(type='text', name='poster', value=`${movie.poster ? movie.poster : ''}`)
+        |
+        if (movie && movie.releases)
+            +releaseTable('Releases', movie.releases)        
+        button Save

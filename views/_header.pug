@@ -1,20 +1,39 @@
 header.header
-    nav
-        a(href='/') All Movies
-        span &nbsp
-        a(href='/all-releases') All Releases
-        span &nbsp
-        a(href='/todo') ToDO
-        span &nbsp
-        a(href='/stats') Statistics
-        span &nbsp
-        a(href='/load-data') BatchLoad
-    div ICON
-    div
-        span.head1 Movies Collector
-        span &nbsp
-        span.head2 Home movies helper
-    //- .header__logo
-    //-     img(src='/img/logo-white.png' alt='Natours logo')
-    //- nav
-    //-     input(type='text' placeholder='Search')
+    
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+        div.container-fluid
+            div ICON
+            div
+                span.head1 Movies Collector
+                span &nbsp
+                span.head2 Home movies helper
+            a.navbar-brand Navbar
+            button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            div.collapse.navbar-collapse(id='navbarSupportedContent')
+                ul.navbar-nav.me-auto.mb-2.mb-lg-0
+                    li.nav-item
+                        //- a.nav-link.active(aria-current='page' href='/') All Movies
+                        a.nav-link(id='navbarAllMovies' aria-current='page' href='/') All Movies
+                    li.nav-item
+                        a.nav-link(id='navbarAllReleases' aria-current='page' href='/releases') All Releases
+                    li.nav-item.dropdown
+                        a.nav-link.dropdown-toggle(id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-expanded='false') TODO
+                        ul.dropdown-menu(aria-labelledby='navbarDropdown')
+                            li
+                                a.dropdown-item(href='/todo') Movies
+                            li
+                                a.dropdown-item(href='/todo') Release
+                    li.nav-item.dropdown
+                        a.nav-link.dropdown-toggle(href='#' id='navbarStatistics' role='button' data-bs-toggle='dropdown' aria-expanded='false') Statistics
+                        ul.dropdown-menu(aria-labelledby='navbarDropdown')
+                            li
+                                a.dropdown-item(href='/statistics/movies') Movies
+                            li
+                                a.dropdown-item(href='/statistics/releases') Release
+                    li.nav-item
+                        //- a.nav-link.disabled(href='/load-data' tabindex='-1' aria-disabled='true') BatchLoad
+                        a.nav-link(href='/load-data' tabindex='-1' aria-disabled='true') BatchLoad
+                form.d-flex
+                    input.form-control.me-2(type='search' placeholder='Search' aria-label='Search')
+                    button.btn.btn-outline-success(type='submit') Search

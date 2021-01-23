@@ -106,9 +106,10 @@ mixin audioStream(audios)
                         td
 
 block content
-    p=`Title: ${release.movie.title}`
+    h3=`Movie: ${release.movie.displayTitle}`
     |
     div
+        //- - console.log(release)
         span='Status: '
         select(name='statusSelect')
             if (!release.status)

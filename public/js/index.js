@@ -1,7 +1,7 @@
 /* eslint-disable */
 import '@babel/polyfill';
 import { addMovie, editMovie } from './movies';
-import { addRelease, editRelease } from './releases';
+import { addRelease, editRelease, deleteRelease } from './releases';
 
 window.DeleteTableRowFunction = function() {
   // event.target will be the input element.
@@ -10,6 +10,14 @@ window.DeleteTableRowFunction = function() {
   if (tr.parentNode.childElementCount > 1) {
     tr.parentNode.removeChild(tr);
   }
+};
+window.DeleteReleaseConfirmation = function(id, name) {
+  var retVal = confirm('Do you want to DELETE release ' + name + '?');
+  if (retVal == true) {
+    deleteRelease(id);
+    // return true;
+  }
+  // return false;
 };
 
 // // DOM ELEMENTS
@@ -231,7 +239,7 @@ if (addReleaseForm) {
 if (editReleaseForm) {
   editReleaseForm.addEventListener('submit', e => {
     e.preventDefault();
-    // document.getElementById('save-release').disabled = true;
+    document.getElementById('save-release').disabled = true;
     const videos = getVideos(videoStreamsTable);
     // console.log(videos);
     const audios = getAudios(audioStreamsTable);

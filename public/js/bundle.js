@@ -8556,7 +8556,7 @@ exports.editMovie = editMovie;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.editRelease = exports.addRelease = void 0;
+exports.deleteRelease = exports.editRelease = exports.addRelease = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -8598,7 +8598,8 @@ var addRelease = /*#__PURE__*/function () {
             res = _context.sent;
 
             // if Ok, reload homepage after 1.5sec
-            if (res.data.status === 'success') {
+            // if (res.data.status === 'success') {
+            if (res.status === 201) {
               (0, _alerts.showAlert)('success', 'New Release Saved!');
               window.setTimeout(function () {
                 // location.assign('/');
@@ -8648,7 +8649,8 @@ var editRelease = /*#__PURE__*/function () {
             res = _context2.sent;
 
             // console.log('Edit Movie - OK');
-            if (res.data.status === 'success' || res.data.status === 'succes') {
+            // if (res.data.status === 'success' || res.data.status === 'succes') {
+            if (res.status === 200) {
               (0, _alerts.showAlert)('success', 'Updated Release Data!');
               window.setTimeout(function () {
                 history.back();
@@ -8677,6 +8679,53 @@ var editRelease = /*#__PURE__*/function () {
 }();
 
 exports.editRelease = editRelease;
+
+var deleteRelease = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(id) {
+    var res;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _context3.next = 3;
+            return (0, _axios.default)({
+              method: 'DELETE',
+              url: "/api/v1/releases/".concat(id)
+            });
+
+          case 3:
+            res = _context3.sent;
+
+            if (res.status === 204) {
+              (0, _alerts.showAlert)('success', 'Release Deleted!');
+              window.setTimeout(function () {
+                location.reload();
+              }, 1500);
+            }
+
+            _context3.next = 10;
+            break;
+
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3["catch"](0);
+            (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
+
+          case 10:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 7]]);
+  }));
+
+  return function deleteRelease(_x4) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.deleteRelease = deleteRelease;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
@@ -8948,6 +8997,15 @@ window.DeleteTableRowFunction = function () {
   if (tr.parentNode.childElementCount > 1) {
     tr.parentNode.removeChild(tr);
   }
+};
+
+window.DeleteReleaseConfirmation = function (id, name) {
+  var retVal = confirm('Do you want to DELETE release ' + name + '?');
+
+  if (retVal == true) {
+    (0, _releases.deleteRelease)(id); // return true;
+  } // return false;
+
 }; // // DOM ELEMENTS
 
 
@@ -9106,8 +9164,8 @@ if (addReleaseForm) {
 
 if (editReleaseForm) {
   editReleaseForm.addEventListener('submit', function (e) {
-    e.preventDefault(); // document.getElementById('save-release').disabled = true;
-
+    e.preventDefault();
+    document.getElementById('save-release').disabled = true;
     var videos = getVideos(videoStreamsTable); // console.log(videos);
 
     var audios = getAudios(audioStreamsTable); // console.log(audios);

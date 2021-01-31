@@ -65,7 +65,7 @@ mixin releaseTable(releases)
                     td
                         a(href=`/manage/release/${release._id}`) Edit
                     td
-                        a(href=`#`) Delete
+                        input(type='button' value='Delete' onclick=`DeleteReleaseConfirmation('${release._id}','${release.name}');`)
 
 block content
     main.main

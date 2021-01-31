@@ -11,18 +11,19 @@ mixin movieTable(movies)
                 th Edit
                 th Delete
                 th Add Release
+                th Action
         tbody
             each movie in movies
                 tr
                     td
                         input(id=`chk-${movie.slug}`, type='checkbox', name=`chk-${movie.slug}`)
                     td=`${movie.displayTitle}`
-                    if (movie.imdbLink)
-                        th
-                            a(href=`${movie.imdbLink}` target="_blank")
-                                img(src='/img/imdb.png' style='max-width: 500px;')
-                    else
-                        th
+                        if (movie.imdbLink)
+                            th
+                                a(href=`${movie.imdbLink}` target="_blank")
+                                    img(src='/img/imdb.png' style='max-width: 500px;')
+                        else
+                            th
                     td
                         a(href=`/movie/${movie.slug}`) View
                     td
@@ -31,6 +32,13 @@ mixin movieTable(movies)
                         a(href=`#`) Delete
                     td
                         a(href=`#`) Add Release
+                    td
+                        select.form-control(id=`movie_${movie.slug}`, name='movieSelect') Select Movie
+                            option(value=movie._id) View
+                            option(value=movie._id) Edit
+                            option(value=movie._id) Add Release
+                            option(value=movie._id) Delete
+                        input.btn.btn-primary(type='button', value='Go')
 
 block content
     main.main

@@ -26,12 +26,26 @@ export const addMovie = async data => {
   }
 };
 
-export const editMovie = async () => {
-  console.log('Starting Edit Movie');
-  //   try {
-  //     console.log('Edit Movie - OK');
-  //   } catch (err) {
-  //     // showAlert('error', err.response.data.message);
-  //     console.log('Edit Movie - Error');
-  //   }
+export const editMovie = async (data, id) => {
+  //api/v1/movies/5f95c6644c701c06e8de95a1
+  try {
+    // console.log(data);
+    // console.log(id);
+    const res = await axios({
+      method: 'PATCH',
+      url: `/api/v1/movies/${id}`,
+      data
+    });
+    // console.log(data);
+    // if Ok, reload homepage after 1.5sec
+    // console.log(res.data);
+    if (res.data.status === 'success' || res.data.status === 'succes') {
+      showAlert('success', 'Updated Movie Data!');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1500);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
 };

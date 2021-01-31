@@ -63,7 +63,7 @@ mixin releaseTable(releases)
                     td
                         a(href=`/release/${release._id}`) View
                     td
-                        a(href=`#`) Edit
+                        a(href=`/manage/release/${release._id}`) Edit
                     td
                         a(href=`#`) Delete
 
@@ -100,5 +100,3 @@ block content
                 |
                 a.btn.btn-primary.disabled(href=`/add-movie`) DELETE
             +releaseTable(releases)
-
-    script(src='/js/releasesOverview.js')

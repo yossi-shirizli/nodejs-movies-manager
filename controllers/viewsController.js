@@ -35,32 +35,6 @@ exports.getMoviesOverview = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getReleasesOverview = catchAsync(async (req, res, next) => {
-  // const releases = await Release.find().sort('name');
-  const releases = await Release.find()
-    .populate({
-      path: 'movie',
-      select: 'title releaseDate displayTitle'
-    })
-    .sort('name');
-  // console.log(releases);
-  res.status(200).render('releasesOverview', {
-    title: 'All Releases',
-    releases
-  });
-});
-
-exports.getMoviesStatistics = catchAsync(async (req, res, next) => {
-  res.status(200).render('moviesStatistics', {
-    title: 'Movies Statistics'
-  });
-});
-exports.getReleasesStatistics = catchAsync(async (req, res, next) => {
-  res.status(200).render('releasesStatistics', {
-    title: 'Releases Statistics'
-  });
-});
-
 exports.getMovie = catchAsync(async (req, res, next) => {
   const movie = await Movie.findOne({ slug: req.params.slug })
     .populate({
@@ -83,6 +57,41 @@ exports.getMovie = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getAddMovie = catchAsync(async (req, res, next) => {
+  res.status(200).render('moviesAdd', {
+    title: 'Add Movie'
+  });
+});
+
+exports.getEditMovie = catchAsync(async (req, res, next) => {
+  const movie = await Movie.findOne({ slug: req.params.slug });
+
+  if (!movie) {
+    return next(new AppError('There is no movie with that name', 404));
+  }
+
+  res.status(200).render('moviesEdit', {
+    title: `${movie.title}`,
+    movie
+  });
+});
+
+// Releases
+exports.getReleasesOverview = catchAsync(async (req, res, next) => {
+  // const releases = await Release.find().sort('name');
+  const releases = await Release.find()
+    .populate({
+      path: 'movie',
+      select: 'title releaseDate displayTitle'
+    })
+    .sort('name');
+  // console.log(releases);
+  res.status(200).render('releasesOverview', {
+    title: 'All Releases',
+    releases
+  });
+});
+
 exports.getRelease = catchAsync(async (req, res, next) => {
   const release = await Release.findOne({ _id: req.params.id }).populate({
     path: 'movie',
@@ -100,6 +109,86 @@ exports.getRelease = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getAddRelease = catchAsync(async (req, res, next) => {
+  // const query = Movie.find().sort('title releaseDate');
+  const movies = await Movie.find().sort('title releaseDate');
+  const filterMovies = movies.map(
+    el =>
+      new Object({
+        _id: el._id,
+        title: el.title,
+        displayTitle: el.displayTitle
+      })
+  );
+
+  const categories = await Category.find().sort('-resolution');
+  const hdr = await HDR.find();
+  const sources = await Source.find();
+  const locations = await Location.find();
+  const subtitles = await Subtitle.find();
+
+  res.status(200).render('releasesAdd', {
+    title: 'Add Release',
+    movies: filterMovies,
+    categories,
+    hdr,
+    sources,
+    locations,
+    subtitles
+  });
+});
+
+exports.getEditRelease = catchAsync(async (req, res, next) => {
+  const release = await Release.findOne({ _id: req.params.id }).populate({
+    path: 'movie',
+    select: '-__v -createdAt -updatedAt'
+  });
+
+  if (!release) {
+    return next(new AppError('There is no release with that id', 404));
+  }
+
+  const movies = await Movie.find().sort('title releaseDate');
+  const filterMovies = movies.map(
+    el =>
+      new Object({
+        _id: el._id,
+        title: el.title,
+        displayTitle: el.displayTitle
+      })
+  );
+
+  const categories = await Category.find().sort('-resolution');
+  const hdr = await HDR.find();
+  const sources = await Source.find();
+  const locations = await Location.find();
+  const subtitles = await Subtitle.find();
+
+  res.status(200).render('releasesEdit', {
+    title: 'Edit Release',
+    release,
+    movies: filterMovies,
+    categories,
+    hdr,
+    sources,
+    locations,
+    subtitles
+  });
+});
+
+// STATS
+exports.getMoviesStatistics = catchAsync(async (req, res, next) => {
+  res.status(200).render('moviesStatistics', {
+    title: 'Movies Statistics'
+  });
+});
+exports.getReleasesStatistics = catchAsync(async (req, res, next) => {
+  res.status(200).render('releasesStatistics', {
+    title: 'Releases Statistics'
+  });
+});
+
+// TODO
 exports.getTodos = catchAsync(async (req, res, next) => {
   // div Search
   const searchItems = await Movie.find({ status: 'Search' }).populate({
@@ -140,65 +229,9 @@ exports.getTodos = catchAsync(async (req, res, next) => {
   });
 });
 
+// BATCH
 exports.getBatchload = catchAsync(async (req, res, next) => {
   res.status(200).render('batchload', {
     title: 'Load Data'
-  });
-});
-
-exports.getEditMovie = catchAsync(async (req, res, next) => {
-  const movie = await Movie.findOne({ slug: req.params.slug })
-    .populate({
-      path: 'releases',
-      select: '-__v -createdAt -updatedAt'
-    })
-    .populate({
-      path: 'selectedReleases',
-      select: '-__v -createdAt -updatedAt'
-    });
-  // console.log(movie);
-
-  if (!movie) {
-    return next(new AppError('There is no movie with that name', 404));
-  }
-
-  res.status(200).render('manageMovie', {
-    title: `${movie.title}`,
-    movie
-  });
-});
-
-exports.getAddMovie = catchAsync(async (req, res, next) => {
-  res.status(200).render('moviesAdd', {
-    title: 'Add Movie'
-  });
-});
-
-exports.getAddRelease = catchAsync(async (req, res, next) => {
-  const query = Movie.find().sort('title releaseDate');
-  const movies = await query;
-  const filterMovies = movies.map(
-    el =>
-      new Object({
-        _id: el._id,
-        title: el.title,
-        displayTitle: el.displayTitle
-      })
-  );
-
-  const categories = await Category.find().sort('-resolution');
-  const hdr = await HDR.find();
-  const sources = await Source.find();
-  const locations = await Location.find();
-  const subtitles = await Subtitle.find();
-
-  res.status(200).render('releasesAdd', {
-    title: 'Add Release',
-    movies: filterMovies,
-    categories,
-    hdr,
-    sources,
-    locations,
-    subtitles
   });
 });

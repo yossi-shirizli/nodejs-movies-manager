@@ -8501,27 +8501,50 @@ var addMovie = /*#__PURE__*/function () {
 exports.addMovie = addMovie;
 
 var editMovie = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(data, id) {
+    var res;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            console.log('Starting Edit Movie'); //   try {
-            //     console.log('Edit Movie - OK');
-            //   } catch (err) {
-            //     // showAlert('error', err.response.data.message);
-            //     console.log('Edit Movie - Error');
-            //   }
+            _context2.prev = 0;
+            _context2.next = 3;
+            return (0, _axios.default)({
+              method: 'PATCH',
+              url: "/api/v1/movies/".concat(id),
+              data: data
+            });
 
-          case 1:
+          case 3:
+            res = _context2.sent;
+
+            // console.log(data);
+            // if Ok, reload homepage after 1.5sec
+            // console.log(res.data);
+            if (res.data.status === 'success' || res.data.status === 'succes') {
+              (0, _alerts.showAlert)('success', 'Updated Movie Data!');
+              window.setTimeout(function () {
+                location.assign('/');
+              }, 1500);
+            }
+
+            _context2.next = 10;
+            break;
+
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2["catch"](0);
+            (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
+
+          case 10:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[0, 7]]);
   }));
 
-  return function editMovie() {
+  return function editMovie(_x2, _x3) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -8578,7 +8601,8 @@ var addRelease = /*#__PURE__*/function () {
             if (res.data.status === 'success') {
               (0, _alerts.showAlert)('success', 'New Release Saved!');
               window.setTimeout(function () {
-                location.assign('/');
+                // location.assign('/');
+                history.back();
               }, 1500);
             }
 
@@ -8606,27 +8630,48 @@ var addRelease = /*#__PURE__*/function () {
 exports.addRelease = addRelease;
 
 var editRelease = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(data, id) {
+    var res;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            console.log('Starting Edit Release'); //   try {
-            //     console.log('Edit Movie - OK');
-            //   } catch (err) {
-            //     // showAlert('error', err.response.data.message);
-            //     console.log('Edit Movie - Error');
-            //   }
+            _context2.prev = 0;
+            _context2.next = 3;
+            return (0, _axios.default)({
+              method: 'PATCH',
+              url: "/api/v1/releases/".concat(id),
+              data: data
+            });
 
-          case 1:
+          case 3:
+            res = _context2.sent;
+
+            // console.log('Edit Movie - OK');
+            if (res.data.status === 'success' || res.data.status === 'succes') {
+              (0, _alerts.showAlert)('success', 'Updated Release Data!');
+              window.setTimeout(function () {
+                history.back();
+              }, 1500);
+            }
+
+            _context2.next = 10;
+            break;
+
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2["catch"](0);
+            (0, _alerts.showAlert)('error', _context2.t0.response.data.message); // console.log('Edit Movie - Error');
+
+          case 10:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[0, 7]]);
   }));
 
-  return function editRelease() {
+  return function editRelease(_x2, _x3) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -8907,7 +8952,9 @@ window.DeleteTableRowFunction = function () {
 
 
 var addMovieForm = document.querySelector('.form-movies-add');
+var editMovieForm = document.querySelector('.form-movies-edit');
 var addReleaseForm = document.querySelector('.form-releases-add');
+var editReleaseForm = document.querySelector('.form-releases-edit');
 var videoStreamsTable = document.querySelector('.table-release-streams-video');
 var audioStreamsTable = document.querySelector('.table-release-streams-audio'); // // VALUES
 // // DELEGATION
@@ -8947,10 +8994,46 @@ if (addMovieForm) {
   });
 }
 
+if (editMovieForm) {
+  editMovieForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('save-movie').disabled = true;
+    var title = document.getElementById('movie-title').value.trim();
+    var status = document.getElementById('movie-status').value;
+    var imdbLink = document.getElementById('imdb-link').value.trim();
+    var isKids = document.getElementById('kids').checked == true ? true : false;
+    var isClassic = document.getElementById('classic').checked == true ? true : false;
+    var releaseDate = document.getElementById('release-date').value != '' ? document.getElementById('release-date').value : null;
+    var ratingsAverage = document.getElementById('ratings-average').value != '' ? document.getElementById('ratings-average').value * 1 : null;
+    var ratingsQuantity = document.getElementById('ratings-quantity').value != '' ? document.getElementById('ratings-quantity').value * 1 : null;
+    var geners = document.getElementById('geners').value.replaceAll(' ', '').split(',');
+    var duration = document.getElementById('duration').value != '' ? document.getElementById('duration').value * 1 : null;
+    var plot = document.getElementById('plot').value.trim() != '' ? document.getElementById('plot').value.trim() : null;
+    var mpaa = document.getElementById('mpaa').value.trim() != '' ? document.getElementById('mpaa').value.trim() : null;
+    var poster = document.getElementById('poster').value.trim() != '' ? document.getElementById('poster').value.trim() : null;
+    var movieId = document.getElementById('movie-id').innerText;
+    (0, _movies.editMovie)({
+      status: status,
+      title: title,
+      imdbLink: imdbLink,
+      releaseDate: releaseDate,
+      ratingsAverage: ratingsAverage,
+      ratingsQuantity: ratingsQuantity,
+      isKids: isKids,
+      isClassic: isClassic,
+      plot: plot,
+      mpaa: mpaa,
+      geners: geners,
+      poster: poster,
+      duration: duration
+    }, movieId);
+  });
+}
+
 if (addReleaseForm) {
   addReleaseForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    console.log('HHH');
+    document.getElementById('save-release').disabled = true;
     var videos = getVideos(videoStreamsTable); // console.log(videos);
 
     var audios = getAudios(audioStreamsTable); // console.log(audios);
@@ -9001,7 +9084,7 @@ if (addReleaseForm) {
     var chapters = document.getElementById('release-chapters').checked == true ? true : false;
     var hebSub = document.getElementById('release-hebrew-subs').value;
     var engSub = document.getElementById('release-english-subs').value;
-    console.log({
+    (0, _releases.addRelease)({
       movie: movie,
       status: status,
       name: name,
@@ -9017,22 +9100,82 @@ if (addReleaseForm) {
       engSub: engSub,
       videos: videos,
       audios: audios
-    }); // addMovie({
-    //   status,
-    //   title,
-    //   imdbLink,
-    //   releaseDate,
-    //   ratingsAverage,
-    //   ratingsQuantity,
-    //   isKids,
-    //   isClassic,
-    //   plot,
-    //   mpaa,
-    //   geners,
-    //   poster,
-    //   duration,
-    //   videos
-    // });
+    });
+  });
+}
+
+if (editReleaseForm) {
+  editReleaseForm.addEventListener('submit', function (e) {
+    e.preventDefault(); // document.getElementById('save-release').disabled = true;
+
+    var videos = getVideos(videoStreamsTable); // console.log(videos);
+
+    var audios = getAudios(audioStreamsTable); // console.log(audios);
+    //------
+
+    var releaseId = document.getElementById('release-id').innerText;
+    var movie = document.getElementById('release-movie').value;
+    var status = document.getElementById('release-status').value;
+    var name = document.getElementById('release-name').value.trim();
+    var category = document.getElementById('release-category').value;
+    var hdr = document.getElementById('release-hdr').value;
+    var source = document.getElementById('release-source').value;
+    var duration = 0;
+
+    if (document.getElementById('release-duration-s').value) {
+      duration = document.getElementById('release-duration-s').value * 1;
+    }
+
+    if (document.getElementById('release-duration-m').value) {
+      duration = duration + document.getElementById('release-duration-m').value * 60;
+    }
+
+    if (document.getElementById('release-duration-h').value) {
+      duration = duration + document.getElementById('release-duration-h').value * 60 * 60;
+    }
+
+    if (duration == 0) {
+      duration = null;
+    }
+
+    var sizeByte = document.getElementById('release-size').value != '' ? document.getElementById('release-size').value * 1 : null;
+    if (sizeByte === 0) sizeByte = null;
+
+    if (sizeByte) {
+      if (document.getElementById('release-size-type').value === 'GB') {
+        sizeByte = sizeByte * 1024;
+      }
+
+      sizeByte = sizeByte * 1024 * 1024;
+    }
+
+    var bitrate = document.getElementById('release-bitrate').value != '' ? document.getElementById('release-bitrate').value * 1 : null;
+
+    if (bitrate === 0) {
+      bitrate = null;
+    }
+
+    var location = document.getElementById('release-location').value;
+    var chapters = document.getElementById('release-chapters').checked == true ? true : false;
+    var hebSub = document.getElementById('release-hebrew-subs').value;
+    var engSub = document.getElementById('release-english-subs').value;
+    (0, _releases.editRelease)({
+      movie: movie,
+      status: status,
+      name: name,
+      category: category,
+      hdr: hdr,
+      source: source,
+      duration: duration,
+      sizeByte: sizeByte,
+      bitrate: bitrate,
+      location: location,
+      chapters: chapters,
+      hebSub: hebSub,
+      engSub: engSub,
+      videos: videos,
+      audios: audios
+    }, releaseId);
   });
 }
 
@@ -9044,7 +9187,7 @@ if (videoStreamsTable) {
 
     if (tbodyRowCount < 5) {
       var newRow = videoStreamsTable.insertRow();
-      newRow.innerHTML = '<tr><td><div class="form-group row" style="width:  180px"><div class="col" style="padding-right:0px"><input class="video-size form-control" type="number" style="width:  80px" step="any" min="0" placeholder="21.5"></div><div class="col"><select class="video-size-type form-control" name="videoScanSelect" style="width:  60px; margin:0px"><option value="GB">GB</option><option value="MB">MB</option></select></div></div></td><td><input class="video-codec form-control" type="text" style="text-transform:uppercase; width:  70px" placeholder="HEVC"></td><td><div class="form-group row" style="width: 250px"><div class="col" style="padding-right: 0px"><input class="video-res-w form-control" type="number" style="width:  80px" min="1" step="1" placeholder="3840"></div><div class="col" style="width:90px; margin:0px; padding:0px" align="center">x</div><div class="col" style="padding: 0px"><input class="video-res-h form-control" type="number" style="width:  80px" min="1" step="1" placeholder="2160"></div><div class="col" style="padding-left: 4px"><select class="video-scan form-control" name="videoScanSelect" style="width:  50px"><option value="p">p</option><option value="i">i</option></select></div></div></td><td><div class="form-group row" style="width:  185px"><div class="col" style="padding-right: 0px"><input class="video-bitrate form-control" type="number" style="width:  75px; margin: 0px" step="any" min="0" placeholder="21.5"></div><div class="col" style="padding-left: 0px"><select class="video-size-type form-control" name="videoScanSelect" style="width:  80px; margin:0px"><option value="Mbps">Mbps</option><option value="Kbps">Kbps</option></select></div></div></td><td><input class="video-colors form-control" type="number" style="width:  60px" step="1" min="1" placeholder="10"></td><td><input class="video-fps form-control" type="number" style="width:  95px" step="0.001" min="1" placeholder="23.976"></td><td><input class="video-chroma form-control" type="text" style="width:  70px" placeholder="4:4:4"></td><td><input class="form-control btn btn-outline-danger" type="button" value="Delete Stream" onclick="DeleteTableRowFunction()"></td></tr>';
+      newRow.innerHTML = '<tr><td><div class="form-group row" style="width:  180px"><div class="col" style="padding-right:0px"><input class="video-size form-control" type="number" style="width:  80px" step="any" min="0" placeholder="21.5"></div><div class="col"><select class="video-size-type form-control" name="videoScanSelect" style="width:  60px; margin:0px"><option value="GB">GB</option><option value="MB">MB</option></select></div></div></td><td><input class="video-codec form-control" type="text" style="text-transform:uppercase; width:  70px" placeholder="HEVC"></td><td><div class="form-group row" style="width: 250px"><div class="col" style="padding-right: 0px"><input class="video-res-w form-control" type="number" style="width:  80px" min="1" step="1" placeholder="3840"></div><div class="col" style="width:90px; margin:0px; padding:0px" align="center">x</div><div class="col" style="padding: 0px"><input class="video-res-h form-control" type="number" style="width:  80px" min="1" step="1" placeholder="2160"></div><div class="col" style="padding-left: 4px"><select class="video-scan form-control" name="videoScanSelect" style="width:  50px"><option value="p">p</option><option value="i">i</option></select></div></div></td><td><div class="form-group row"><div class="col" style="padding-right: 0px"><input class="video-bitrate form-control" type="number" style="width:  100px; margin: 0px" step="any" min="0" placeholder="21.5"></div></div></td><td><input class="video-colors form-control" type="number" style="width:  60px" step="1" min="1" placeholder="10"></td><td><input class="video-fps form-control" type="number" style="width:  95px" step="0.001" min="1" placeholder="23.976"></td><td><input class="video-chroma form-control" type="text" style="width:  70px" placeholder="4:4:4"></td><td><input class="form-control btn btn-outline-danger" type="button" value="Delete Stream" onclick="DeleteTableRowFunction()"></td></tr>';
       var rows = videoStreamsTable.rows;
     }
   });
@@ -9059,7 +9202,7 @@ if (audioStreamsTable) {
 
     if (tbodyRowCount < 5) {
       var newRow = audioStreamsTable.insertRow();
-      newRow.innerHTML = '<tr><td><div class="form-group row" style="width:  170px"><div class="col" style="padding-right:0px"><input class="audio-size form-control" type="number" style="width:  70px" step="any" min="0" placeholder="21.5"></div><div class="col"><select class="audio-size-type form-control" name="audioScanSelect" style="width:  60px; margin:0px"><option value="GB">GB</option><option value="MB">MB</option></select></div></div></td><td><select class="audio-language form-control" name="audioLanguageSelect" style="width:  100px; margin: 0px"><option value="Unknown">Unknown</option><option value="English">English</option><option value="Hebrew">Hebrew</option><option value="French">French</option><option value="Spanish">Spanish</option><option value="Italian">Italian</option><option value="Other">Other</option></select></td><td><select class="audio-codec form-control" name="audioCodecSelect" style="width:  140px; margin: 0px"><option value="Atmos">Atmos</option><option value="DTS-X">DTS-X</option><option value="DTS-HD MA">DTS-HD MA</option><option value="Dolby TrueHD">Dolby TrueHD</option><option value="DTS-HD Hi Res">DTS-HD Hi Res</option><option value="DTS-ES">DTS-ES</option><option value="DTS">DTS</option><option value="AAC">AAC</option><option value="Dolby Digital">AC3</option><option value="LPCM">LPCM</option><option value="FLAC">FLAC</option><option value="PCM">PCM</option><option value="Other">Other</option><option value="Unknown" selected="selected">Unknown</option></select></td><td><input class="audio-channels form-control" type="number" style="width:  70px" step="0.1" min="0" placeholder="7.1"></td><td><div class="form-group row" style="width:  185px"><div class="col" style="padding-right: 0px"><input class="audio-bitrate form-control" type="number" style="width:  75px; margin: 0px" step="any" min="0" placeholder="21.5"></div><div class="col" style="padding-left: 0px"><select class="audio-bitrate-type form-control" name="audioBitrateSelect" style="width:  80px; margin:0px"><option value="Mbps">Mbps</option><option value="Kbps" selected="selected">Kbps</option></select></div></div></td><td><input class="audio-depth form-control" type="number" style="width: 80px" step="1" min="0" placeholder="24"></td><td><input class="audio-sample form-control" type="number" style="width: 100px" step="0.1" min="0" placeholder="44KHz"></td><td><input class="form-control btn btn-outline-danger" type="button" value="Delete Stream" onclick="DeleteTableRowFunction()"></td></tr>';
+      newRow.innerHTML = '<tr><td><div class="form-group row" style="width:  200px"><div class="col" style="padding-right:0px"><input class="audio-size form-control" type="number" style="width:  100px" step="any" min="0" placeholder="21.5"></div><div class="col"><select class="audio-size-type form-control" name="audioScanSelect" style="width:  60px; margin:0px"><option value="GB">GB</option><option value="MB">MB</option></select></div></div></td><td><select class="audio-language form-control" name="audioLanguageSelect" style="width:  100px; margin: 0px"><option value="Unknown">Unknown</option><option value="English">English</option><option value="Hebrew">Hebrew</option><option value="French">French</option><option value="Spanish">Spanish</option><option value="Italian">Italian</option><option value="Other">Other</option></select></td><td><select class="audio-codec form-control" name="audioCodecSelect" style="width:  140px; margin: 0px"><option value="Atmos">Atmos</option><option value="DTS-X">DTS-X</option><option value="DTS-HD MA">DTS-HD MA</option><option value="Dolby TrueHD">Dolby TrueHD</option><option value="DTS-HD Hi Res">DTS-HD Hi Res</option><option value="DTS-ES">DTS-ES</option><option value="DTS">DTS</option><option value="AAC">AAC</option><option value="Dolby Digital">AC3</option><option value="LPCM">LPCM</option><option value="FLAC">FLAC</option><option value="PCM">PCM</option><option value="Other">Other</option><option value="Unknown" selected="selected">Unknown</option></select></td><td><input class="audio-channels form-control" type="number" style="width:  70px" step="0.1" min="0" placeholder="7.1"></td><td><div class="form-group row"><div class="col" style="padding-right: 0px"><input class="audio-bitrate form-control" type="number" style="width:  100px; margin: 0px" step="any" min="0" placeholder="21.5"></div></div></td><td><input class="audio-depth form-control" type="number" style="width: 80px" step="1" min="0" placeholder="24"></td><td><input class="audio-sample form-control" type="number" style="width: 100px" step="0.1" min="0" placeholder="44KHz"></td><td><input class="form-control btn btn-outline-danger" type="button" value="Delete Stream" onclick="DeleteTableRowFunction()"></td></tr>';
       var rows = audioStreamsTable.rows;
     }
   });
@@ -9078,17 +9221,17 @@ function getVideos(videoTable) {
   }
 
   if (videos.length === 0) {
-    return undefined;
+    return null;
   }
 
   return videos;
 }
 
 function getVideoStreamParams(videoRow) {
-  var sizeMB = videoRow.getElementsByClassName('video-size')[0].value != '' ? videoRow.getElementsByClassName('video-size')[0].value * 1 : undefined;
+  var sizeMB = videoRow.getElementsByClassName('video-size')[0].value != '' ? videoRow.getElementsByClassName('video-size')[0].value * 1 : null;
 
   if (sizeMB === 0) {
-    sizeMB = undefined;
+    sizeMB = null;
   }
 
   if (sizeMB) {
@@ -9097,24 +9240,18 @@ function getVideoStreamParams(videoRow) {
     }
   }
 
-  var codec = videoRow.getElementsByClassName('video-codec')[0].value.trim() != '' ? videoRow.getElementsByClassName('video-codec')[0].value : undefined;
-  var resW = videoRow.getElementsByClassName('video-res-w')[0].value != '' ? videoRow.getElementsByClassName('video-res-w')[0].value : undefined;
-  var resH = videoRow.getElementsByClassName('video-res-h')[0].value != '' ? videoRow.getElementsByClassName('video-res-h')[0].value : undefined;
+  var codec = videoRow.getElementsByClassName('video-codec')[0].value.trim() != '' ? videoRow.getElementsByClassName('video-codec')[0].value : null;
+  var resW = videoRow.getElementsByClassName('video-res-w')[0].value != '' ? videoRow.getElementsByClassName('video-res-w')[0].value : null;
+  var resH = videoRow.getElementsByClassName('video-res-h')[0].value != '' ? videoRow.getElementsByClassName('video-res-h')[0].value : null;
   var scanType = videoRow.getElementsByClassName('video-scan')[0].value;
-  if (!resH && !resW) scanType = undefined;
-  var colors = videoRow.getElementsByClassName('video-colors')[0].value != '' ? videoRow.getElementsByClassName('video-colors')[0].value * 1 : undefined;
-  var chroma = videoRow.getElementsByClassName('video-chroma')[0].value != '' ? videoRow.getElementsByClassName('video-chroma')[0].value : undefined;
-  var fps = videoRow.getElementsByClassName('video-fps')[0].value != '' ? videoRow.getElementsByClassName('video-fps')[0].value * 1 : undefined;
-  var bitrate = videoRow.getElementsByClassName('video-bitrate')[0].value != '' ? videoRow.getElementsByClassName('video-bitrate')[0].value * 1 : undefined;
+  if (!resH && !resW) scanType = null;
+  var colors = videoRow.getElementsByClassName('video-colors')[0].value != '' ? videoRow.getElementsByClassName('video-colors')[0].value * 1 : null;
+  var chroma = videoRow.getElementsByClassName('video-chroma')[0].value != '' ? videoRow.getElementsByClassName('video-chroma')[0].value : null;
+  var fps = videoRow.getElementsByClassName('video-fps')[0].value != '' ? videoRow.getElementsByClassName('video-fps')[0].value * 1 : null;
+  var bitrate = videoRow.getElementsByClassName('video-bitrate')[0].value != '' ? videoRow.getElementsByClassName('video-bitrate')[0].value * 1 : null;
 
   if (bitrate === 0) {
-    bitrate = undefined;
-  }
-
-  if (bitrate) {
-    if (videoRow.getElementsByClassName('video-bitrate-type')[0].value === 'Kbps') {
-      bitrate = bitrate / 1024;
-    }
+    bitrate = null;
   }
 
   if (sizeMB || codec || resW || resH || scanType || colors || chroma || fps || bitrate) {
@@ -9146,17 +9283,17 @@ function getAudios(audioTable) {
   }
 
   if (audios.length === 0) {
-    return undefined;
+    return null;
   }
 
   return audios;
 }
 
 function getAudioStreamParams(audioRow) {
-  var sizeMB = audioRow.getElementsByClassName('audio-size')[0].value != '' ? audioRow.getElementsByClassName('audio-size')[0].value * 1 : undefined;
+  var sizeMB = audioRow.getElementsByClassName('audio-size')[0].value != '' ? audioRow.getElementsByClassName('audio-size')[0].value * 1 : null;
 
   if (sizeMB === 0) {
-    sizeMB = undefined;
+    sizeMB = null;
   }
 
   if (sizeMB) {
@@ -9165,36 +9302,30 @@ function getAudioStreamParams(audioRow) {
     }
   }
 
-  var language = audioRow.getElementsByClassName('audio-language')[0].value.trim() != 'Unknown' ? audioRow.getElementsByClassName('audio-language')[0].value : undefined;
-  var codec = audioRow.getElementsByClassName('audio-codec')[0].value.trim() != 'Unknown' ? audioRow.getElementsByClassName('audio-codec')[0].value : undefined;
-  var channels = audioRow.getElementsByClassName('audio-channels')[0].value != '' ? audioRow.getElementsByClassName('audio-channels')[0].value * 1 : undefined;
+  var language = audioRow.getElementsByClassName('audio-language')[0].value.trim() != 'Unknown' ? audioRow.getElementsByClassName('audio-language')[0].value : null;
+  var codec = audioRow.getElementsByClassName('audio-codec')[0].value.trim() != 'Unknown' ? audioRow.getElementsByClassName('audio-codec')[0].value : null;
+  var channels = audioRow.getElementsByClassName('audio-channels')[0].value != '' ? audioRow.getElementsByClassName('audio-channels')[0].value * 1 : null;
 
   if (channels === 0) {
-    channels = undefined;
+    channels = null;
   }
 
-  var bitrate = audioRow.getElementsByClassName('audio-bitrate')[0].value != '' ? audioRow.getElementsByClassName('audio-bitrate')[0].value * 1 : undefined;
+  var bitrate = audioRow.getElementsByClassName('audio-bitrate')[0].value != '' ? audioRow.getElementsByClassName('audio-bitrate')[0].value * 1 : null;
 
   if (bitrate === 0) {
-    bitrate = undefined;
+    bitrate = null;
   }
 
-  if (bitrate) {
-    if (audioRow.getElementsByClassName('audio-bitrate-type')[0].value === 'Mbps') {
-      bitrate = bitrate * 1024;
-    }
-  }
-
-  var bitDepth = audioRow.getElementsByClassName('audio-depth')[0].value != '' ? audioRow.getElementsByClassName('audio-depth')[0].value * 1 : undefined;
+  var bitDepth = audioRow.getElementsByClassName('audio-depth')[0].value != '' ? audioRow.getElementsByClassName('audio-depth')[0].value * 1 : null;
 
   if (bitDepth === 0) {
-    bitDepth = undefined;
+    bitDepth = null;
   }
 
-  var sampleRate = audioRow.getElementsByClassName('audio-sample')[0].value != '' ? audioRow.getElementsByClassName('audio-sample')[0].value * 1 : undefined;
+  var sampleRate = audioRow.getElementsByClassName('audio-sample')[0].value != '' ? audioRow.getElementsByClassName('audio-sample')[0].value * 1 : null;
 
   if (sampleRate === 0) {
-    sampleRate = undefined;
+    sampleRate = null;
   }
 
   if (sizeMB || language || codec || channels || bitrate || bitDepth || sampleRate) {

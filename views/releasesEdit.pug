@@ -1,0 +1,317 @@
+extends base
+
+
+block content
+    - console.log(release);
+    h1 Edit Release
+        span=` - `
+        span#release-id=`${release._id}`
+    |
+    form.form.form-releases-edit
+        nav
+            div#nav-tab.nav.nav-tabs(role='tablist')
+                a#nav-general-tab.nav-link.active(data-bs-toggle='tab' href='#nav-general' role='tab' aria-controls='nav-general' aria-selected='true') General
+                a#nav-video-tab.nav-link(data-bs-toggle='tab' href='#nav-video' role='tab' aria-controls='nav-video' aria-selected='false') Video Streams
+                a#nav-audio-tab.nav-link(data-bs-toggle='tab' href='#nav-audio' role='tab' aria-controls='nav-contact' aria-selected='false') Audio Streams
+            div#nav-tabContent.tab-content
+                div#nav-general.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-general-tab')
+                    div.form-group.row
+                        label.col-1.col-form-label(for='movie-status') Movie
+                        div.col-11
+                            select#release-movie.form-control(name='movieSelect') Select Movie
+                                each movie in movies
+                                    option(value=movie._id, selected= movie._id.toString()==release.movie._id.toString())=`${movie.displayTitle}`
+                    div.form-group.row
+                        label.col-1.col-form-label(for='releasename') Name
+                        div.col-11
+                            input#release-name.form-control(type='text', required, name='releasename' , placeholder='Release Name', value=`${release.name ? release.name : ''}`)
+                    div.form-group.row
+                        div.col-5.form-group.row
+                            label.col-4.col-form-label(for='movie-status') Status
+                            div.col-8
+                                select#release-status.form-control(name='statusSelect')
+                                    option(value='Done', selected= release.status=='Done') Done
+                                    option(value='Check Subtitles', selected= release.status=='Check Subtitles') Check Subtitles
+                                    option(value='Build', selected= release.status=='Build') Build
+                                    option(value='Downloading', selected= release.status=='Downloading') Downloading
+                                    option(value='Que', selected= release.status=='Que') Que
+                                    option(value='Search', selected= release.status=='Search') Search
+                        div.col-4.form-group.row
+                            label.col-4.col-form-label(for='release-category') Category
+                            div.col-8
+                                select#release-category.form-control(name='categorySelect') Select Category
+                                    each category in categories
+                                        option(value=category.name, selected= release.category.toString()===category.name.toString())=`${category.name}`
+                        div.col-3.form-group.row
+                            label.col-4.col-form-label(for='release-hdr') HDR
+                            div.col-8
+                                select#release-hdr.form-control(name='hdrSelect')
+                                    each el in hdr
+                                        option(value=el.name, selected= el.name.toString()===release.hdr.toString())=`${el.name}`
+                    div.form-group.row
+                        div.col-5.form-group.row
+                            label.col-4.col-form-label() Duration
+                            div.col-8.form-group.row
+                                div.row(style='width: 200px')
+                                    div.col(style='padding: 0px')
+                                        input#release-duration-h.form-control.col(name='duration-h', style='padding: 6px; width: 40px', type='number', min='0', max='6', value=`${release.durationSec ? Math.floor(release.durationSec/3600) : ''}`)
+                                    div.col(style='padding: 0px')
+                                        label.col(for='release-duation-h',style='padding: 0px') h
+                                    div.col(style='padding: 0px')
+                                        input#release-duration-m.form-control.col(name='duration-m', style='padding: 6px; width: 50px', type='number', min='0', max='59', value=`${release.durationSec ? Math.floor(release.durationSec%3600 / 60) : ''}`)
+                                    div.col(style='padding: 0px')
+                                        label.col(for='release-duration-m',style='padding: 0px') m
+                                    div.col(style='padding: 0px')
+                                        input#release-duration-s.form-control.col(name='duration-s', style='padding: 6px; width: 50px', type='number', min='0', max='59', value=`${release.durationSec ? Math.floor(release.durationSec%3600 % 60) : ''}`)
+                                    div.col(style='padding: 0px')
+                                        label.col(for='release-duration-s',style='padding: 0px') s
+                        div.col-4.form-group.row
+                            label.col-sm-4.col-form-label(for='release-size') Size
+                            div.col-sm-4.form-row
+                                - const sizeMB=release.sizeByte ? (release.sizeByte/1024/1024<1024?true:false) : undefined;
+                                input#release-size.form-control.col(type='number', name='releasesize', step='any' , min='0', placeholder='33.3', value=`${release.sizeByte ? (sizeMB==true ? release.sizeByte/1024/1024 : release.sizeByte/1024/1024/1024) : ''}`)
+                            div.col-sm-4.form-row
+                                select#release-size-type.form-control.col(name='sizeSelect')
+                                    option(value='GB', selected= !sizeMB) GB
+                                    option(value='MB', selected= sizeMB) MB
+                        div.col-3.form-group.row
+                            label.col-4.col-form-label(for='release-bitrate') Bitrate
+                            div.col-8.form-row
+                                input#release-bitrate.form-control.col(type='number', name='releasebitrate', step='any' , min='0', placeholder='22.2', value=`${release.bitrate ? release.bitrate : ''}`)
+                    div.col-8.form-group.row
+                        div.col-4.form-group.row
+                            label.col-sm-6.col-form-label(for='release-hebrew-subs') Hebrew
+                            div.col-sm-6
+                                select#release-hebrew-subs.form-control(name='hebSubSelect')
+                                    each subtitle in subtitles
+                                        option(value=subtitle.name, selected= subtitle.name.toString()===release.hebSub.toString())=`${subtitle.name}`
+                        div.col-4.form-group.row
+                            label.col-sm-6.col-form-label(for='release-english-subs') English
+                            div.col-sm-6
+                                select#release-english-subs.form-control(name='engSubSelect')
+                                    each subtitle in subtitles
+                                        option(value=subtitle.name, selected= subtitle.name.toString()===release.engSub.toString())=`${subtitle.name}`
+                        div.col-4.form-check.form-check-inline
+                            label.form-check-label(for='release-chapters') Chapters
+                            input#release-chapters.form-check-input(type='checkbox', name='chapters', value='chapters', checked=(release.chapters ? "checked" : undefined))
+                    div.form-group.row
+                        div.col-6.form-group.row
+                            label.col-sm-3.col-form-label(for='release-source') Source
+                            div.col-sm-9
+                                select#release-source.form-control(name='sourceSelect')
+                                    each source in sources
+                                        option(value=source.name, selected= source.name.toString()===release.source.toString())=`${source.name}`
+                        div.col-6.form-group.row
+                            label.col-sm-3.col-form-label(for='release-location') Location
+                            div.col-sm-9
+                                select#release-location.form-control(name='locationSelect')
+                                    each location in locations
+                                        option(value=location.display, selected= location.display.toString()===release.location.toString())=`${location.display}`
+                    
+                div#nav-video.tab-pane.fade(role='tabpanel' aria-labelledby='nav-video-tab')
+                    table.table.table-bordered.table-release-streams-video
+                        thead
+                            tr
+                                th(scope='col') Size
+                                th(scope='col') Codec
+                                th(scope='col') Resulotion
+                                th(scope='col') Bitrate
+                                th(scope='col') Colors
+                                th(scope='col') Fps
+                                th(scope='col') Chroma
+                                th(scope='col')
+                                    input#video-add-stream.form-control.btn.btn-outline-primary(type='button', value='Add Stream')
+                        tbody
+                            - if (!release.videos || release.videos.length==0){
+                                - for (var i = 0; i < 3; ++i) {
+                                    tr
+                                        td
+                                            div.form-group.row(style='width:  180px')
+                                                div.col(style='padding-right:0px')
+                                                    input.video-size.form-control(type='number',style='width:  80px', step='any', min='0',placeholder='21.5')
+                                                div.col
+                                                    select.video-size-type.form-control(name='videoScanSelect',style='width:  60px; margin:0px')
+                                                        option(value='GB') GB
+                                                        option(value='MB') MB
+                                        td
+                                            input.video-codec.form-control(type='text',style='text-transform:uppercase; width:  70px',placeholder='HEVC')
+                                        td
+                                            div.form-group.row(style='width: 250px')
+                                                div.col(style='padding-right: 0px')
+                                                    input.video-res-w.form-control(type='number',style='width:  80px',min='1',step='1',placeholder='3840')
+                                                div.col(style='width:90px; margin:0px; padding:0px',align='center') x
+                                                div.col(style='padding: 0px')
+                                                    input.video-res-h.form-control(type='number',style='width:  80px',min='1',step='1',placeholder='2160')
+                                                div.col(style='padding-left: 4px')
+                                                    select.video-scan.form-control(name='videoScanSelect',style='width:  50px')
+                                                        option(value='p') p
+                                                        option(value='i') i
+                                        td
+                                            div.form-group.row
+                                                div.col(style='padding-right: 0px')
+                                                    input.video-bitrate.form-control(type='number',style="width:  100px; margin: 0px",step='any', min='0',placeholder='21.5')
+                                        td
+                                            input.video-colors.form-control(type='number',style="width:  60px",step='1', min='1',placeholder='10')
+                                        td
+                                            input.video-fps.form-control(type='number',style="width:  95px",step='0.001', min='1',placeholder='23.976')
+                                        td
+                                            input.video-chroma.form-control(type='text',style="width:  70px",placeholder='4:4:4')
+                                        td
+                                            input.form-control.btn.btn-outline-danger(type='button', value='Delete Stream', onclick='DeleteTableRowFunction()')
+                                - }
+                            - } else {
+                                - for (var i = 0; i < release.videos.length; ++i) {
+                                    tr
+                                        td
+                                            div.form-group.row(style='width:  180px')
+                                                - const sizeMB=release.videos[i].sizeMB ? (release.videos[i].sizeMB<1024?true:false) : undefined;
+                                                div.col(style='padding-right:0px')
+                                                    input.video-size.form-control(type='number',style='width:  80px', step='any', min='0',placeholder='21.5', value=`${release.videos[i].sizeMB ? (sizeMB==true ? release.videos[i].sizeMB : release.videos[i].sizeMB/1024) : ''}`)
+                                                div.col
+                                                    select.video-size-type.form-control(name='videoScanSelect',style='width:  60px; margin:0px')
+                                                        option(value='GB', selected= !sizeMB) GB
+                                                        option(value='MB', selected= sizeMB) MB
+                                        td
+                                            input.video-codec.form-control(type='text',style='text-transform:uppercase; width:  70px',placeholder='HEVC', value=`${release.videos[i].codec ? release.videos[i].codec : ''}`)
+                                        td
+                                            div.form-group.row(style='width: 250px')
+                                                div.col(style='padding-right: 0px')
+                                                    input.video-res-w.form-control(type='number',style='width:  80px',min='1',step='1',placeholder='3840', value=`${release.videos[i].resW ? release.videos[i].resW : ''}`)
+                                                div.col(style='width:90px; margin:0px; padding:0px',align='center') x
+                                                div.col(style='padding: 0px')
+                                                    input.video-res-h.form-control(type='number',style='width:  80px',min='1',step='1',placeholder='2160', value=`${release.videos[i].resH ? release.videos[i].resH : ''}`)
+                                                div.col(style='padding-left: 4px')
+                                                    select.video-scan.form-control(name='videoScanSelect',style='width:  50px')
+                                                        option(value='p', selected= release.videos[i].scanType=='p') p
+                                                        option(value='i', selected= release.videos[i].scanType=='i') i
+                                        td
+                                            div.form-group.row
+                                                div.col(style='padding-right: 0px')
+                                                    input.video-bitrate.form-control(type='number',style="width:  100px; margin: 0px",step='any', min='0',placeholder='21.5', value=`${release.videos[i].bitrate ? release.videos[i].bitrate : ''}`)
+                                        td
+                                            input.video-colors.form-control(type='number',style="width:  60px",step='1', min='1',placeholder='10', value=`${release.videos[i].colors ? release.videos[i].colors : ''}`)
+                                        td
+                                            input.video-fps.form-control(type='number',style="width:  95px",step='0.001', min='1',placeholder='23.976', value=`${release.videos[i].fps ? release.videos[i].fps : ''}`)
+                                        td
+                                            input.video-chroma.form-control(type='text',style="width:  70px",placeholder='4:4:4', value=`${release.videos[i].chroma ? release.videos[i].chroma : ''}`)
+                                        td
+                                            input.form-control.btn.btn-outline-danger(type='button', value='Delete Stream', onclick='DeleteTableRowFunction()')
+                                - }
+                            - }        
+                
+                div#nav-audio.tab-pane.fade(role='tabpanel' aria-labelledby='nav-audio-tab')
+                    table.table.table-bordered.table-release-streams-audio
+                        thead
+                            tr
+                                th(scope='col') Size
+                                th(scope='col') Language
+                                th(scope='col') Codec
+                                th(scope='col') Channels
+                                th(scope='col') Bitrate
+                                th(scope='col') Bit Depth
+                                th(scope='col') Sample Rate
+                                th(scope='col')
+                                    input#audio-add-stream.form-control.btn.btn-outline-primary(type='button', value='Add Stream')
+                        tbody
+                            - if (!release.audios || release.audios.length==0){
+                                - for (var i = 0; i < 3; ++i) {
+                                    tr
+                                        td
+                                            div.form-group.row(style='width:  200px')
+                                                div.col(style='padding-right:0px')
+                                                    input.audio-size.form-control(type='number',style='width:  100px', step='any', min='0',placeholder='21.5')
+                                                div.col
+                                                    select.audio-size-type.form-control(name='audioScanSelect',style='width:  60px; margin:0px')
+                                                        option(value='GB') GB
+                                                        option(value='MB') MB
+                                        td
+                                            select.audio-language.form-control(name='audioLanguageSelect',style='width:  100px; margin: 0px')
+                                                option(value='Unknown') Unknown
+                                                option(value='English') English
+                                                option(value='Hebrew') Hebrew
+                                                option(value='French') French
+                                                option(value='Spanish') Spanish
+                                                option(value='Italian') Italian
+                                                option(value='Other') Other
+                                        td
+                                            select.audio-codec.form-control(name='audioCodecSelect',style='width:  140px; margin: 0px')
+                                                option(value='Atmos') Atmos
+                                                option(value='DTS-X') DTS-X
+                                                option(value='DTS-HD MA') DTS-HD MA
+                                                option(value='Dolby TrueHD') Dolby TrueHD
+                                                option(value='DTS-HD Hi Res') DTS-HD Hi Res
+                                                option(value='DTS-ES') DTS-ES
+                                                option(value='DTS') DTS
+                                                option(value='AAC') AAC
+                                                option(value='Dolby Digital') AC3
+                                                option(value='LPCM') LPCM
+                                                option(value='FLAC') FLAC
+                                                option(value='PCM') PCM
+                                                option(value='Other') Other
+                                                option(value='Unknown',selected='selected') Unknown
+                                        td
+                                            input.audio-channels.form-control(type='number',style="width:  70px",step='0.1', min='0',placeholder='7.1')
+                                        td
+                                            div.form-group.row
+                                                div.col(style='padding-right: 0px')
+                                                    input.audio-bitrate.form-control(type='number',style="width:  100px; margin: 0px",step='any', min='0',placeholder='21.5')
+                                        td
+                                            input.audio-depth.form-control(type='number',style="width: 80px",step='1', min='0',placeholder='24')
+                                        td
+                                            input.audio-sample.form-control(type='number',style="width: 100px",step='0.1', min='0',placeholder='44KHz')
+                                        td
+                                            input.form-control.btn.btn-outline-danger(type='button', value='Delete Stream', onclick='DeleteTableRowFunction()')
+                                - }
+                            - } else {
+                                - for (var i = 0; i < release.audios.length; ++i) {
+                                    tr
+                                        td
+                                            div.form-group.row(style='width:  200px')
+                                                - const sizeMB=release.audios[i].sizeMB ? (release.audios[i].sizeMB<1024?true:false) : undefined;
+                                                div.col(style='padding-right:0px')
+                                                    input.audio-size.form-control(type='number',style='width:  100px', step='any', min='0',placeholder='21.5', value=`${release.audios[i].sizeMB ? (sizeMB==true ? release.audios[i].sizeMB : release.audios[i].sizeMB/1024) : ''}`)
+                                                div.col
+                                                    select.audio-size-type.form-control(name='audioScanSelect',style='width:  60px; margin:0px')
+                                                        option(value='GB', selected= !sizeMB) GB
+                                                        option(value='MB', selected= sizeMB) MB
+                                        td
+                                            select.audio-language.form-control(name='audioLanguageSelect',style='width:  100px; margin: 0px')
+                                                option(value='Unknown', selected= !release.audios[i].language) Unknown
+                                                option(value='English', selected= release.audios[i].language=='English') English
+                                                option(value='Hebrew', selected= release.audios[i].language=='Hebrew') Hebrew
+                                                option(value='French', selected= release.audios[i].language=='French') French
+                                                option(value='Spanish', selected= release.audios[i].language=='Spanish') Spanish
+                                                option(value='Italian', selected= release.audios[i].language=='Italian') Italian
+                                                option(value='Other', selected= release.audios[i].language=='Other') Other
+                                        td
+                                            select.audio-codec.form-control(name='audioCodecSelect',style='width:  140px; margin: 0px')
+                                                option(value='Atmos', selected= release.audios[i].codec=='Atmos') Atmos
+                                                option(value='DTS-X', selected= release.audios[i].codec=='DTS-X') DTS-X
+                                                option(value='DTS-HD MA', selected= release.audios[i].codec=='DTS-HD MA') DTS-HD MA
+                                                option(value='Dolby TrueHD', selected= release.audios[i].codec=='Dolby TrueHD') Dolby TrueHD
+                                                option(value='DTS-HD Hi Res', selected= release.audios[i].codec=='DTS-HD Hi Res') DTS-HD Hi Res
+                                                option(value='DTS-ES', selected= release.audios[i].codec=='DTS-ES') DTS-ES
+                                                option(value='DTS', selected= release.audios[i].codec=='DTS') DTS
+                                                option(value='AAC', selected= release.audios[i].codec=='AAC') AAC
+                                                option(value='Dolby Digital', selected= release.audios[i].codec=='AC3') AC3
+                                                option(value='LPCM', selected= release.audios[i].codec=='LPCM') LPCM
+                                                option(value='FLAC', selected= release.audios[i].codec=='FLAC') FLAC
+                                                option(value='PCM', selected= release.audios[i].codec=='PCM') PCM
+                                                option(value='Other', selected= release.audios[i].codec=='Other') Other
+                                                option(value='Unknown', selected= !release.audios[i].codec) Unknown
+                                        td
+                                            input.audio-channels.form-control(type='number',style="width:  70px",step='0.1', min='0',placeholder='7.1', value=`${release.audios[i].channels ? release.audios[i].channels : ''}`)
+                                        td
+                                            div.form-group.row
+                                                div.col(style='padding-right: 0px')
+                                                    input.audio-bitrate.form-control(type='number',style="width:  100px; margin: 0px",step='any', min='0',placeholder='21.5', value=`${release.audios[i].bitrate ? release.audios[i].bitrate : ''}`)
+                                        td
+                                            input.audio-depth.form-control(type='number',style="width: 80px",step='1', min='0',placeholder='24', value=`${release.audios[i].bitDepth ? release.audios[i].bitDepth : ''}`)
+                                        td
+                                            input.audio-sample.form-control(type='number',style="width: 100px",step='0.1', min='0',placeholder='44KHz', value=`${release.audios[i].sampleRate ? release.audios[i].sampleRate : ''}`)
+                                        td
+                                            input.form-control.btn.btn-outline-danger(type='button', value='Delete Stream', onclick='DeleteTableRowFunction()')
+                                - }
+                            - }
+        button#save-release.btn.btn-success Save 
+        

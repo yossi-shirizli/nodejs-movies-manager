@@ -13,10 +13,10 @@ const releaseSchema = new mongoose.Schema(
           'Build',
           'Downloading',
           'Que',
-          'Deleted'
+          'Search'
         ],
         message:
-          'Status is either: Done, Check-Subtitles, Working, Build, Downloading, Que or Deleted'
+          'Status is either: Done, Check Subtitles, Working, Build, Downloading, Que or Search'
       }
     },
     name: {

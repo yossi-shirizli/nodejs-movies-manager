@@ -28,9 +28,9 @@ block content
                             div.col-8
                                 select#release-status.form-control(name='statusSelect')
                                     option(value='Done') Done
-                                    option(value='Check-Subtitles') Check-Subtitles
+                                    option(value='Check Subtitles') Check Subtitles
                                     option(value='Build') Build
-                                    option(value='Download') Download
+                                    option(value='Downloading') Downloading
                                     option(value='Que') Que
                                     option(value='Search' selected='selected') Search
                         div.col-4.form-group.row
@@ -142,13 +142,9 @@ block content
                                                     option(value='p') p
                                                     option(value='i') i
                                     td
-                                        div.form-group.row(style='width:  185px')
+                                        div.form-group.row
                                             div.col(style='padding-right: 0px')
-                                                input.video-bitrate.form-control(type='number',style="width:  75px; margin: 0px",step='any', min='0',placeholder='21.5')
-                                            div.col(style='padding-left: 0px')
-                                                select.video-bitrate-type.form-control(name='videoScanSelect',style='width:  80px; margin:0px')
-                                                    option(value='Mbps') Mbps
-                                                    option(value='Kbps') Kbps
+                                                input.video-bitrate.form-control(type='number',style="width:  100px; margin: 0px",step='any', min='0',placeholder='21.5')
                                     td
                                         input.video-colors.form-control(type='number',style="width:  60px",step='1', min='1',placeholder='10')
                                     td
@@ -158,6 +154,7 @@ block content
                                     td
                                         input.form-control.btn.btn-outline-danger(type='button', value='Delete Stream', onclick='DeleteTableRowFunction()')
                             - }
+                
                 div#nav-audio.tab-pane.fade(role='tabpanel' aria-labelledby='nav-audio-tab')
                     table.table.table-bordered.table-release-streams-audio
                         thead
@@ -175,9 +172,9 @@ block content
                             - for (var i = 0; i < 3; ++i) {
                                 tr
                                     td
-                                        div.form-group.row(style='width:  170px')
+                                        div.form-group.row(style='width:  200px')
                                             div.col(style='padding-right:0px')
-                                                input.audio-size.form-control(type='number',style='width:  70px', step='any', min='0',placeholder='21.5')
+                                                input.audio-size.form-control(type='number',style='width:  100px', step='any', min='0',placeholder='21.5')
                                             div.col
                                                 select.audio-size-type.form-control(name='audioScanSelect',style='width:  60px; margin:0px')
                                                     option(value='GB') GB
@@ -210,13 +207,9 @@ block content
                                     td
                                         input.audio-channels.form-control(type='number',style="width:  70px",step='0.1', min='0',placeholder='7.1')
                                     td
-                                        div.form-group.row(style='width:  185px')
+                                        div.form-group.row
                                             div.col(style='padding-right: 0px')
-                                                input.audio-bitrate.form-control(type='number',style="width:  75px; margin: 0px",step='any', min='0',placeholder='21.5')
-                                            div.col(style='padding-left: 0px')
-                                                select.audio-bitrate-type.form-control(name='audioBitrateSelect',style='width:  80px; margin:0px')
-                                                    option(value='Mbps') Mbps
-                                                    option(value='Kbps',selected='selected') Kbps
+                                                input.audio-bitrate.form-control(type='number',style="width:  100px; margin: 0px",step='any', min='0',placeholder='21.5')
                                     td
                                         input.audio-depth.form-control(type='number',style="width: 80px",step='1', min='0',placeholder='24')
                                     td
@@ -227,12 +220,4 @@ block content
 
                             - }
         button#save-release.btn.btn-success Save 
-        //-  button#save-movie.btn.btn-success Save
-    //- script.
-    //-     function DeleteTableRowFunction() {
-    //-         console.log('DELETE ME');
-    //-     // // event.target will be the input element.
-    //-     // var td = event.target.parentNode;
-    //-     // var tr = td.parentNode; // the row to be removed
-    //-     // tr.parentNode.removeChild(tr);
-    //-     }          
+         

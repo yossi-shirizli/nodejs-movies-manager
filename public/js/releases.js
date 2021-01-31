@@ -18,7 +18,8 @@ export const addRelease = async data => {
     if (res.data.status === 'success') {
       showAlert('success', 'New Release Saved!');
       window.setTimeout(() => {
-        location.assign('/');
+        // location.assign('/');
+        history.back();
       }, 1500);
     }
   } catch (err) {
@@ -26,12 +27,25 @@ export const addRelease = async data => {
   }
 };
 
-export const editRelease = async () => {
-  console.log('Starting Edit Release');
-  //   try {
-  //     console.log('Edit Movie - OK');
-  //   } catch (err) {
-  //     // showAlert('error', err.response.data.message);
-  //     console.log('Edit Movie - Error');
-  //   }
+export const editRelease = async (data, id) => {
+  // {{URL}}api/v1/releases/5f9da336f9854d043e6ea509
+  // console.log('Edit Release Id ', id);
+  // console.log(data);
+  try {
+    const res = await axios({
+      method: 'PATCH',
+      url: `/api/v1/releases/${id}`,
+      data
+    });
+    // console.log('Edit Movie - OK');
+    if (res.data.status === 'success' || res.data.status === 'succes') {
+      showAlert('success', 'Updated Release Data!');
+      window.setTimeout(() => {
+        history.back();
+      }, 1500);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+    // console.log('Edit Movie - Error');
+  }
 };

@@ -29,7 +29,7 @@ mixin movieTable(movies)
                     td
                         a(href=`/manage/movie/${movie.slug}`) Edit
                     td
-                        a(href=`#`) Delete
+                        input(type='button' value='Delete' onclick=`DeleteMovieConfirmation('${movie._id}','${movie.title}');`)
                     td
                         a(href=`#`) Add Release
                     td

@@ -1,4 +1,6 @@
 const Movie = require('./../models/movieModel');
+const Release = require('./../models/releaseModel');
+const AppError = require('./../utils/appError');
 const catchAsync = require('./../utils/catchAsync');
 const factory = require('./handlerFactory');
 
@@ -22,7 +24,24 @@ exports.getMovie = factory.getOne(
 );
 exports.createMovie = factory.createOne(Movie);
 exports.updateMovie = factory.updateOne(Movie);
-exports.deleteMovie = factory.deleteOne(Movie);
+// exports.deleteMovie1 = factory.deleteOne(Movie);
+exports.deleteMovie = catchAsync(async (req, res, next) => {
+  // const doc = await Movie.findByIdAndDelete(req.params.id);
+
+  // console.log(req.params.id);
+  const doc = await Movie.findById(req.params.id);
+  // console.log(test);
+  if (!doc) {
+    return next(new AppError('No movie found for this Id', 404));
+  }
+  const releases = await Release.deleteMany({ movie: req.params.id });
+  const movie = await Movie.findByIdAndDelete(req.params.id);
+
+  res.status(204).json({
+    status: 'succes',
+    data: null
+  });
+});
 
 exports.getMainMoviesStats = catchAsync(async (req, res, next) => {
   const stats = await Movie.aggregate([

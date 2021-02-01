@@ -15,7 +15,8 @@ export const addMovie = async data => {
     });
 
     // if Ok, reload homepage after 1.5sec
-    if (res.data.status === 'success') {
+    // if (res.data.status === 'success') {
+    if (res.status === 201) {
       showAlert('success', 'New Movie Saved!');
       window.setTimeout(() => {
         location.assign('/');
@@ -39,10 +40,30 @@ export const editMovie = async (data, id) => {
     // console.log(data);
     // if Ok, reload homepage after 1.5sec
     // console.log(res.data);
-    if (res.data.status === 'success' || res.data.status === 'succes') {
+    // if (res.data.status === 'success' || res.data.status === 'succes') {
+    if (res.status === 200) {
       showAlert('success', 'Updated Movie Data!');
       window.setTimeout(() => {
         location.assign('/');
+      }, 1500);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
+export const deleteMovie = async id => {
+  //{{URL}}api/v1/movies/5f9dde98ff8d190cdad3d8e1
+
+  try {
+    const res = await axios({
+      method: 'DELETE',
+      url: `/api/v1/movies/${id}`
+    });
+    if (res.status === 204) {
+      showAlert('success', 'Movie Deleted!');
+      window.setTimeout(() => {
+        location.reload();
       }, 1500);
     }
   } catch (err) {

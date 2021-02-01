@@ -19,6 +19,15 @@ window.DeleteReleaseConfirmation = function(id, name) {
   }
   // return false;
 };
+window.DeleteMovieConfirmation = function(id, title) {
+  var retVal = confirm('Do you want to DELETE all ' + title + ' related data?');
+  if (retVal == true) {
+    console.log('DELETE MOVIE', title, id);
+    // deleteRelease(id);
+    // return true;
+  }
+  // return false;
+};
 
 // // DOM ELEMENTS
 const addMovieForm = document.querySelector('.form-movies-add');

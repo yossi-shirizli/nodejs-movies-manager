@@ -20,7 +20,8 @@ export const addRelease = async data => {
       showAlert('success', 'New Release Saved!');
       window.setTimeout(() => {
         // location.assign('/');
-        history.back();
+        // history.back();
+        location.replace(document.referrer);
       }, 1500);
     }
   } catch (err) {
@@ -43,7 +44,8 @@ export const editRelease = async (data, id) => {
     if (res.status === 200) {
       showAlert('success', 'Updated Release Data!');
       window.setTimeout(() => {
-        history.back();
+        // history.back();
+        location.replace(document.referrer);
       }, 1500);
     }
   } catch (err) {
